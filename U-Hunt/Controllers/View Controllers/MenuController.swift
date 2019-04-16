@@ -51,7 +51,7 @@ class MenuController: UIViewController {
                 self.distanceLabel.text = "\(Int(distanceSlider.value.rounded(.up))) miles"
             }
         }
-        // TODO: Change search results
+        HuntController.shared.distanceFilter = Int(distanceSlider.value.rounded(.up))
     }
     
     // MARK: - IBActions

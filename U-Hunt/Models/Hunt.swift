@@ -17,8 +17,11 @@ enum Privacy: String {
 
 class Hunt {
     
+    static let idKey = "id"
     static let titleKey = "title"
     static let descriptionKey = "description"
+    static let startLatitudeLocationKey = "startLatitudeLocation"
+    static let startLongitudeLocationKey = "startLongitudeLocation"
     static let stopsIDsKey = "stopsIDs"
     static let distanceKey = "distance"
     static let reviewIDsKey = "reviewIDs"
@@ -28,8 +31,12 @@ class Hunt {
     static let privacyKey = "privacy"
     
     var ref: DatabaseReference?
+    var id: String?
     var title: String
     var description: String?
+    var startLocation: CLLocation?
+    var startLatitudeLocation: String?
+    var startLongitudeLocation: String?
     var stopsIDs: [String]
     var distance: Double
     var reviewIDs: [String]?
@@ -49,9 +56,9 @@ class Hunt {
     }
     var imageData: Data?
     var imagePath: String?
-    var privacy: Privacy
+    var privacy: String
     
-    init(title: String, description: String?, stopsIDs: [String], distance: Double = 0, reviewIDs: [String]?, avgRating: Double = 0, creatorID: String, thumbnailImage: UIImage = #imageLiteral(resourceName: "pirateMap"), privacy: Privacy) {
+    init(title: String, description: String?, stopsIDs: [String], distance: Double = 0, reviewIDs: [String]?, avgRating: Double = 0, creatorID: String, thumbnailImage: UIImage = #imageLiteral(resourceName: "pirateMap"), privacy: String) {
         self.title = title
         self.description = description
         self.stopsIDs = stopsIDs
@@ -67,19 +74,29 @@ class Hunt {
         guard
             let value = snapshot.value as? [String: AnyObject],
             let title = value[Hunt.titleKey] as? String,
+            let startLatitudeLocation = value[Hunt.startLatitudeLocationKey] as? String,
+            let startLongitudeLocation = value[Hunt.startLongitudeLocationKey] as? String,
+            let startLatitude = CLLocationDegrees(startLatitudeLocation),
+            let startLongitude = CLLocationDegrees(startLongitudeLocation),
             let stopsIDs = value[Hunt.stopsIDsKey] as? [String],
             let distance = value[Hunt.distanceKey] as? Double,
             let avgRating = value[Hunt.avgRatingKey] as? Double,
             let creatorID = value[Hunt.creatorIDKey] as? String,
             let imagePath = value[Hunt.imagePathKey] as? String,
-            let privacy = value[Hunt.privacyKey] as? Privacy else { return nil }
+            let privacy = value[Hunt.privacyKey] as? String else { return nil }
+        
         
         let description = value[Hunt.descriptionKey] as? String
         let reviewIDs = value[Hunt.reviewIDsKey] as? [String]
         
+        // Convert latitude and longitude strings into CLLocation
+        let startLocation = CLLocation(latitude: startLatitude, longitude: startLongitude)
+        
         self.ref = snapshot.ref
+        self.id = snapshot.key
         self.title = title
         self.description = description
+        self.startLocation = startLocation
         self.stopsIDs = stopsIDs
         self.distance = distance
         self.reviewIDs = reviewIDs
@@ -90,46 +107,22 @@ class Hunt {
     }
     
     func toAnyObject() -> Any {
-        if description != nil && imagePath != nil {
-            return [
-                Hunt.titleKey : title,
-                Hunt.descriptionKey : description!,
-                Hunt.stopsIDsKey : stopsIDs,
-                Hunt.distanceKey : distance,
-                Hunt.avgRatingKey : avgRating,
-                Hunt.creatorIDKey : creatorID,
-                Hunt.privacyKey : privacy,
-                Hunt.imagePathKey : imagePath!
-            ]
-        } else if description != nil {
-            return [
-                Hunt.titleKey : title,
-                Hunt.descriptionKey : description!,
-                Hunt.stopsIDsKey : stopsIDs,
-                Hunt.distanceKey : distance,
-                Hunt.avgRatingKey : avgRating,
-                Hunt.creatorIDKey : creatorID,
-                Hunt.privacyKey : privacy
-            ]
-        } else if imagePath != nil {
-            return [
-                Hunt.titleKey : title,
-                Hunt.stopsIDsKey : stopsIDs,
-                Hunt.distanceKey : distance,
-                Hunt.avgRatingKey : avgRating,
-                Hunt.creatorIDKey : creatorID,
-                Hunt.privacyKey : privacy,
-                Hunt.imagePathKey : imagePath!
-            ]
-        } else {
-            return [
-                Hunt.titleKey : title,
-                Hunt.stopsIDsKey : stopsIDs,
-                Hunt.distanceKey : distance,
-                Hunt.avgRatingKey : avgRating,
-                Hunt.creatorIDKey : creatorID,
-                Hunt.privacyKey : privacy
-            ]
+        var returnDict: Dictionary<String, Any> = [Hunt.titleKey : title, Hunt.stopsIDsKey : stopsIDs, Hunt.distanceKey : distance, Hunt.avgRatingKey : avgRating, Hunt.creatorIDKey : creatorID, Hunt.privacyKey : privacy]
+        
+        if id != nil {
+            returnDict[Hunt.idKey] = id!
         }
+        if description != nil {
+            returnDict[Hunt.descriptionKey] = description!
+        }
+        if imagePath != nil {
+            returnDict[Hunt.imagePathKey] = imagePath!
+        }
+        if startLatitudeLocation != nil && startLongitudeLocation != nil {
+            returnDict[Hunt.startLatitudeLocationKey] = startLatitudeLocation
+            returnDict[Hunt.startLongitudeLocationKey] = startLongitudeLocation
+        }
+        
+        return returnDict
     }
 }
