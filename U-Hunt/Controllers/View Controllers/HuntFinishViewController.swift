@@ -10,21 +10,40 @@ import UIKit
 
 class HuntFinishViewController: UIViewController {
 
+    // MARK: - Properties
+    var hunt: Hunt?
+    
+    // MARK: - IBOutlets
+    @IBOutlet weak var CongratulationsLabel: UILabel!
+    @IBOutlet weak var YouHaveFinishedLabel: UILabel!
+    @IBOutlet weak var DidYouEnjoyLabel: UILabel!
+    @IBOutlet weak var shareLabel: UILabel!
+    @IBOutlet weak var idButton: UIButton!
+    
+    // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        CongratulationsLabel.adjustsFontSizeToFitWidth = true
+        YouHaveFinishedLabel.adjustsFontSizeToFitWidth = true
+        DidYouEnjoyLabel.adjustsFontSizeToFitWidth = true
+        shareLabel.adjustsFontSizeToFitWidth = true
+        idButton.setTitle(hunt?.id, for: .normal)
+    }
+
+    // MARK: - IBActions
+    @IBAction func idButtonTapped(_ sender: Any) {
+        guard let hunt = hunt, let huntID = hunt.id else { return }
+        let activityVC = UIActivityViewController(activityItems: ["Come check out out the scavenger hunt I just completed with U-Hunt! Use this ID to find it once you download the app: \n \(huntID)"], applicationActivities: nil)
+        DispatchQueue.main.async {
+            self.present(activityVC, animated: true)
+        }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        LocationManager.shared.isInAHunt = false
+        DispatchQueue.main.async {
+            self.navigationController?.popToRootViewController(animated: true)
+        }
     }
-    */
-
 }

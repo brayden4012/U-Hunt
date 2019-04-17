@@ -21,7 +21,10 @@ class HuntStartViewController: UIViewController {
         }
     }
     var calloutView: CustomCalloutView?
+    
+    var numQuestions = 0
     var currentStopIndex = 0
+    var progress = 0
 
     // MARK: - IBOutlets
     @IBOutlet weak var progressView: UIProgressView!
@@ -46,36 +49,40 @@ class HuntStartViewController: UIViewController {
         let views = Bundle.main.loadNibNamed("CustomCalloutView", owner: nil, options: nil)
         self.calloutView = views?[0] as? CustomCalloutView
         
-        // Add listener
-        NotificationCenter.default.addObserver(self, selector: #selector(presentLocationInfo), name: NSNotification.Name("arrived"), object: nil)
+        updateViews()
+        
+        guard let stops = stops else { return }
+        for stop in stops {
+            if stop.questionAndAnswer != nil {
+                numQuestions += 1
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let navBarHeight = self.navigationController?.navigationBar.frame.height else { return }
-        questionViewTopRestraint.constant = navBarHeight
+//        guard let navBarHeight = self.navigationController?.navigationBar.frame.height else { return }
+//        questionViewTopRestraint.constant = navBarHeight
     }
     
     @objc func presentLocationInfo() {
         guard let stops = stops,
             let name = stops[currentStopIndex].name else { return }
         
-        progressView.progress = Float(1 / stops.count) * Float(currentStopIndex + 1)
+        progress += 1
+        UIView.animate(withDuration: 0.5) {
+            self.progressView.progress = Float(1.0 / Double(stops.count + self.numQuestions)) * Float(self.progress)
+        }
+        
         mapView.removeAnnotations(mapView.annotations)
         
         if let info = stops[currentStopIndex].info {
             instructionsLabel.text = "You have arrived at \(name)! \(info)"
-        } else {
-            instructionsLabel.text = "You have arrived at \(name)!"
-        }
+        } 
         
         okButton.isHidden = false
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("arrived"), object: nil)
-        
-        if currentStopIndex == stops.count - 1 {
-            // Segue to finish VC
-        }
     }
     
     func updateViews() {
@@ -84,12 +91,15 @@ class HuntStartViewController: UIViewController {
             let stopName = stops[currentStopIndex].name,
             let hunt = hunt else { return }
         
+        UIView.animate(withDuration: 0.5) {
+            self.progressView.progress = Float(1.0 / Double(stops.count + self.numQuestions)) * Float(self.progress)
+        }
+        
         if currentStopIndex == 0 {
-            instructionsLabel.text = "Welcome to \(hunt.title) scavenger hunt! Make your way to \(stopName) to begin!"
-        } else if currentStopIndex < stops.count - 1 {
-            instructionsLabel.text = "Make your way to \(stopName) for your next clue!"
+            guard let instructions = stops[currentStopIndex].instructions else { return }
+            instructionsLabel.text = "Welcome to \(hunt.title) scavenger hunt! \(instructions)"
         } else {
-            instructionsLabel.text = "Make your way to the final stop: \(stopName)!"
+            instructionsLabel.text = stops[currentStopIndex].instructions
         }
         
         mapView.removeAnnotations(mapView.annotations)
@@ -101,7 +111,8 @@ class HuntStartViewController: UIViewController {
         startAnnotation.coordinate = stops[currentStopIndex].location.coordinate
         self.mapView.addAnnotation(startAnnotation)
         mapView.showAnnotations(mapView.annotations, animated: true)
-        mapView.selectAnnotation(startAnnotation, animated: true)
+        
+//        mapView.addSubview(questionView)
         
         LocationManager.shared.targetLocation = stops[currentStopIndex].location
         NotificationCenter.default.addObserver(self, selector: #selector(presentLocationInfo), name: NSNotification.Name("arrived"), object: nil)
@@ -119,59 +130,103 @@ class HuntStartViewController: UIViewController {
         okButton.isHidden = true
         if let questionAndAnswer = stops[currentStopIndex].questionAndAnswer {
             questionLabel.text = questionAndAnswer[0]
+            incorrectAnswerLabel.isHidden = true
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.5) {
+                    self.navigationController?.navigationBar.layer.zPosition = -1
+                    self.navigationController?.navigationBar.alpha = 0
                     self.questionView.alpha = 1
+                    self.view.bringSubviewToFront(self.questionView)
                 }
             }
         } else {
             currentStopIndex += 1
+            if currentStopIndex == stops.count {
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "toFinishVC", sender: nil)
+                }
+            } else {
+                updateViews()
+            }
         }
     }
     
     @IBAction func submitButtonTapped(_ sender: Any) {
+        submitAnswer()
+    }
+    
+    @IBAction func skipQuestionButtonTapped(_ sender: Any) {
+        guard let stops = stops else { return }
+        currentStopIndex += 1
+        progress += 1
+        if currentStopIndex == stops.count {
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "toFinishVC", sender: nil)
+            }
+        } else {
+            updateViews()
+        }
+        
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .transitionCrossDissolve, animations: {
+                self.questionView.alpha = 0
+                self.navigationController?.navigationBar.layer.zPosition = 0
+                self.navigationController?.navigationBar.alpha = 1
+            }, completion: nil)
+        }
+    }
+    
+    func submitAnswer() {
         // Check for correct answer, ignoring punctuation and case
+        self.view.endEditing(true)
+        
         guard let stops = stops,
             let questionAndAnswer = stops[currentStopIndex].questionAndAnswer,
             let answer = answerTextField.text else { return }
         
         let joinedSets = CharacterSet.punctuationCharacters.intersection(CharacterSet.alphanumerics)
-        let correctAnswer = questionAndAnswer[1].lowercased().components(separatedBy: joinedSets.inverted).joined()
-        let userAnswer = answer.lowercased().components(separatedBy: joinedSets.inverted).joined()
+        let correctAnswer = questionAndAnswer[1].lowercased().components(separatedBy: joinedSets).joined()
+        let userAnswer = answer.lowercased().components(separatedBy: joinedSets).joined()
         
         if userAnswer == correctAnswer {
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.25, animations: {
                     self.correctImageView.alpha = 1
                 })
+                
                 UIView.animate(withDuration: 0.5, delay: 1.0, options: .transitionCrossDissolve, animations: {
                     self.questionView.alpha = 0
-                }, completion: nil)
+                    self.correctImageView.alpha = 0
+                    self.navigationController?.navigationBar.layer.zPosition = 0
+                    self.navigationController?.navigationBar.alpha = 1
+                }, completion: { (didAnimate) in
+                    if didAnimate {
+                        self.currentStopIndex += 1
+                        self.progress += 1
+                        if self.currentStopIndex == stops.count {
+                            DispatchQueue.main.async {
+                                self.performSegue(withIdentifier: "toFinishVC", sender: nil)
+                            }
+                        } else {
+                            self.updateViews()
+                        }
+                    }
+                })
             }
-            // Load next stop
         } else {
             incorrectAnswerLabel.isHidden = false
         }
     }
     
-    @IBAction func skipQuestionButtonTapped(_ sender: Any) {
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: .transitionCrossDissolve, animations: {
-                self.questionView.alpha = 0
-            }, completion: nil)
-        }
-        // Load next stop
-    }
-    
-    /*
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "toFinishVC" {
+            guard let hunt = hunt,
+                let destinationVC = segue.destination as? HuntFinishViewController else { return }
+            
+            destinationVC.hunt = hunt
+        }
     }
-    */
 
 }
 extension HuntStartViewController: MKMapViewDelegate {
@@ -187,7 +242,7 @@ extension HuntStartViewController: MKMapViewDelegate {
             view.titleVisibility = .visible
             view.displayPriority = .required
             view.canShowCallout = true
-            view.layer.setValue(stops.first!.location, forKey: "firstStop")
+            view.layer.setValue(stops[currentStopIndex].location, forKey: "currentStop")
             
             return view
         }
@@ -197,12 +252,12 @@ extension HuntStartViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         guard let calloutView = calloutView,
-            let location = view.layer.value(forKey: "firstStop") as? CLLocation else { return }
+            let location = view.layer.value(forKey: "currentStop") as? CLLocation else { return }
         calloutView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         calloutView.imageView.image = #imageLiteral(resourceName: "appleMapsIcon")
         
         let button = UIButton(frame: calloutView.frame)
-        button.layer.setValue(location, forKey: "firstStop")
+        button.layer.setValue(location, forKey: "currentStop")
         button.addTarget(self, action: #selector(navigate), for: .touchUpInside)
         calloutView.addSubview(button)
         
@@ -212,7 +267,7 @@ extension HuntStartViewController: MKMapViewDelegate {
     }
     
     @objc func navigate(_ sender: UIButton) {
-        guard let location = sender.layer.value(forKey: "firstStop") as? CLLocation,
+        guard let location = sender.layer.value(forKey: "currentStop") as? CLLocation,
             let stops = stops else { return }
         
         let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
@@ -223,7 +278,7 @@ extension HuntStartViewController: MKMapViewDelegate {
         
         let placemark = MKPlacemark(coordinate: location.coordinate)
         let mapItem = MKMapItem(placemark: placemark)
-        mapItem.name = stops.first?.name
+        mapItem.name = stops[currentStopIndex].name
         mapItem.openInMaps(launchOptions: options)
     }
     
@@ -231,5 +286,18 @@ extension HuntStartViewController: MKMapViewDelegate {
         guard let calloutView = calloutView else { return }
         
         calloutView.removeFromSuperview()
+    }
+}
+extension HuntStartViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        submitAnswer()
+        answerTextField.text = ""
+        
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        incorrectAnswerLabel.isHidden = true
     }
 }

@@ -29,6 +29,7 @@ class HuntDetailViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var huntIDButton: UIButton!
     @IBOutlet weak var ratingStackView: UIStackView!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var ratingView: CosmosView!
@@ -37,12 +38,14 @@ class HuntDetailViewController: UIViewController {
     @IBOutlet weak var totalDistanceLabel: UILabel!
     @IBOutlet weak var numStopsLabel: UILabel!
     @IBOutlet weak var cancelTopRestraint: NSLayoutConstraint!
+    @IBOutlet weak var letsGoButton: UIImageView!
     
     // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.titleLabel.adjustsFontSizeToFitWidth = true
+        self.huntIDButton.titleLabel?.adjustsFontSizeToFitWidth = true
         descriptionTextView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
         descriptionTextView.font = UIFont.systemFont(ofSize: (view.frame.height * 0.225) / 9.5)
         ratingLabel.font = UIFont(name: "System", size: (ratingStackView.frame.height - 10))
@@ -50,7 +53,9 @@ class HuntDetailViewController: UIViewController {
         readAllReviewsButton.titleLabel?.adjustsFontSizeToFitWidth = true
         totalDistanceLabel.font = UIFont(name: "System", size: ratingStackView.frame.height - 10)
         numStopsLabel.font = UIFont(name: "System", size: ratingStackView.frame.height - 10)
-        
+        letsGoButton.layer.masksToBounds = true
+        letsGoButton.clipsToBounds = true
+        letsGoButton.layer.cornerRadius = letsGoButton.frame.width / 8.25
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,9 +70,11 @@ class HuntDetailViewController: UIViewController {
         
         guard let currentLocation = LocationManager.shared.currentLocation,
             let hunt = hunt,
+            let huntID = hunt.id,
             let startLocation = hunt.startLocation else { return }
         
         titleLabel.text = hunt.title
+        huntIDButton.setTitle("Hunt ID: \(huntID)", for: .normal)
         descriptionTextView.text = hunt.description
         totalDistanceLabel.text = "Total Distance: \(Double(round(hunt.distance * 10) / 10)) miles"
         thumbnailBackgroundImageView.image = hunt.thumbnailImage
@@ -116,6 +123,14 @@ class HuntDetailViewController: UIViewController {
     // MARK: - IBactions
     @IBAction func backButtonTapped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func huntIDButtonTapped(_ sender: Any) {
+        guard let hunt = hunt, let huntID = hunt.id else { return }
+        let activityVC = UIActivityViewController(activityItems: ["Come check out out this scavenger hunt on U-Hunt! Use this ID to find it once you download the app: \n \(huntID)"], applicationActivities: nil)
+        DispatchQueue.main.async {
+            self.present(activityVC, animated: true)
+        }
     }
     
     @IBAction func letsGoButtonTapped(_ sender: Any) {

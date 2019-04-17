@@ -103,6 +103,8 @@ class Page4CreateViewController: UIViewController {
                 }
             }
         }
+        
+        StopController.shared.stops.removeAll()
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {

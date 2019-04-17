@@ -27,9 +27,16 @@ class HomeController: UIViewController {
     @IBOutlet weak var huntListTableView: UITableView!
     
     // MARK: - Life Cycle Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(segueToProfile), name: NSNotification.Name("profileButtonTappedFromHome"), object: nil)
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        let notification = Notification(name: Notification.Name(rawValue: "homePageAppeared"), object: nil)
+        NotificationCenter.default.post(notification)
         setupRefreshControl()
     }
     
@@ -59,6 +66,12 @@ class HomeController: UIViewController {
             view.bringSubviewToFront(menuContainerView)
         }
         
+    }
+    
+    @objc func segueToProfile() {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "toProfileVC", sender: nil)
+        }
     }
     
     // MARK: - IBActions    
@@ -184,7 +197,7 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
 }
 extension HomeController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchText = searchBar.text else { return }
+        guard let searchText = searchBar.text, !searchText.isEmpty else { return }
         HuntController.shared.fetchHuntWithID(searchText) { (didFetch) in
             if didFetch {
                 DispatchQueue.main.async {

@@ -89,50 +89,97 @@ class HuntController {
 
         huntsRef.queryOrdered(byChild: Hunt.privacyKey).observe(.value) { (snapshot) in
             let dispatchGroup = DispatchGroup()
-            let dispatchQueue = DispatchQueue(label: "fetchQueue")
-            let dispatchSemaphore = DispatchSemaphore(value: 0)
-            
-            dispatchQueue.async {
-                for child in snapshot.children {
-                    dispatchGroup.enter()
-                    if let snapshot = child as? DataSnapshot,
-                        let hunt = Hunt(snapshot: snapshot),
-                        hunt.privacy == "publicHunt",
-                        let startLocation = hunt.startLocation,
-                        let imagePath = hunt.imagePath {
-                        
-                        guard let distanceInMeters = LocationManager.shared.currentLocation?.distance(from: startLocation) else { completion(false); return }
-                        let distanceInMiles = Double(distanceInMeters) / 1609.34
-                        if distanceInMiles < Double(distance) {
-                            // Fetch thumbnail image
+
+            for child in snapshot.children.reversed() {
+                dispatchGroup.enter()
+                if let snapshot = child as? DataSnapshot,
+                    let hunt = Hunt(snapshot: snapshot),
+                    hunt.privacy == "publicHunt",
+                    let startLocation = hunt.startLocation,
+                    let imagePath = hunt.imagePath {
+                    
+                    guard let distanceInMeters = LocationManager.shared.currentLocation?.distance(from: startLocation) else { completion(false); return }
+                    let distanceInMiles = Double(distanceInMeters) / 1609.34
+                    if distanceInMiles < Double(distance) {
+                        // Fetch thumbnail image
+                        self.fetchThumbnailImageFor(hunt: hunt, imagePath: imagePath, completion: { (data) in
+                            guard let data = data else { completion(false); return }
+                            hunt.imageData = data
+                            localHunts.append(hunt)
+                            dispatchGroup.leave()
+                        })
+                    } else {
+                        dispatchGroup.leave()
+                    }
+                    
+                } else {
+                    dispatchGroup.leave()
+                    break
+                }
+            }
+            dispatchGroup.notify(queue: .main) {
+                guard let currentLocation = LocationManager.shared.currentLocation else { completion(false); return }
+                DispatchQueue.main.async {
+                    let sortedHunts = localHunts.sorted(by: { (lhs, rhs) -> Bool in
+                        guard let lhsStart = lhs.startLocation,
+                            let rhsStart = rhs.startLocation else { completion(false); return false }
+                        return currentLocation.distance(from: lhsStart) < currentLocation.distance(from: rhsStart)
+                    })
+                    self.localHunts = sortedHunts
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    func fetchHuntsByUser(userID: String, completion: @escaping ([Hunt]?) -> Void) {
+        var userHunts: [Hunt] = []
+        huntsRef.queryOrdered(byChild: Hunt.creatorIDKey).observeSingleEvent(of: .value) { (snapshot) in
+            let dispatchGroup = DispatchGroup()
+            var foundUserID = false
+            for child in snapshot.children {
+                dispatchGroup.enter()
+                if let snapshot = child as? DataSnapshot {
+                    if foundUserID {
+                        if let value = snapshot.value as? [String: AnyObject],
+                            value[Hunt.creatorIDKey] as? String == userID {
+                            guard let hunt = Hunt(snapshot: snapshot),
+                                let imagePath = hunt.imagePath else { completion(nil); return }
+
                             self.fetchThumbnailImageFor(hunt: hunt, imagePath: imagePath, completion: { (data) in
-                                guard let data = data else { completion(false); return }
+                                guard let data = data else { completion(nil); return }
                                 hunt.imageData = data
-                                localHunts.append(hunt)
-                                dispatchSemaphore.signal()
+                                userHunts.append(hunt)
                                 dispatchGroup.leave()
                             })
-                            dispatchSemaphore.wait()
+                        } else {
+                            dispatchGroup.leave()
+                            break
+                        }
+                    } else {
+                        if let value = snapshot.value as? [String: AnyObject],
+                            value[Hunt.creatorIDKey] as? String == userID {
+                            
+                            foundUserID = true
+                            guard let hunt = Hunt(snapshot: snapshot),
+                                let imagePath = hunt.imagePath else { completion(nil); return }
+                            
+                            self.fetchThumbnailImageFor(hunt: hunt, imagePath: imagePath, completion: { (data) in
+                                guard let data = data else { completion(nil); return }
+                                hunt.imageData = data
+                                userHunts.append(hunt)
+                                dispatchGroup.leave()
+                            })
                         } else {
                             dispatchGroup.leave()
                         }
-                        
-                    } else {
-                        dispatchGroup.leave()
-                        break
-                    }
-                }
-                dispatchGroup.notify(queue: dispatchQueue) {
-                    DispatchQueue.main.async {
-                        let sortedHunts = localHunts.sorted(by: { $0.distance < $1.distance })
-                        self.localHunts = sortedHunts
-                        completion(true)
                     }
                 }
             }
-            
-            
-            
+            dispatchGroup.notify(queue: .main, execute: {
+                let sorted = userHunts.sorted(by: { $0.title < $1.title })
+                completion(sorted)
+            })
         }
     }
     

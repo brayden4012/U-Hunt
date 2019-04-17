@@ -10,6 +10,9 @@
 		1B484F0BC58A1F7F33C47F5F /* Pods_U_Hunt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8A46AACB62B0822D59FF6C /* Pods_U_Hunt.framework */; };
 		2F079C442264FDE0005F78FE /* HuntStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C432264FDE0005F78FE /* HuntStartViewController.swift */; };
 		2F079C4C2266333A005F78FE /* HuntFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C4B2266333A005F78FE /* HuntFinishViewController.swift */; };
+		2F079C4E22663D92005F78FE /* Fireworks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C4D22663D92005F78FE /* Fireworks.swift */; };
+		2F079C50226647D9005F78FE /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C4F226647D9005F78FE /* ProfileViewController.swift */; };
+		2F079C5222664ECB005F78FE /* HuntCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C5122664ECB005F78FE /* HuntCollectionViewCell.swift */; };
 		2F087359225FD4F300238DC8 /* Page4CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F087358225FD4F300238DC8 /* Page4CreateViewController.swift */; };
 		2F08735C225FE21600238DC8 /* StopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08735B225FE21600238DC8 /* StopTableViewCell.swift */; };
 		2F087360225FE25800238DC8 /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08735D225FE25800238DC8 /* CustomCalloutView.swift */; };
@@ -54,6 +57,9 @@
 /* Begin PBXFileReference section */
 		2F079C432264FDE0005F78FE /* HuntStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntStartViewController.swift; sourceTree = "<group>"; };
 		2F079C4B2266333A005F78FE /* HuntFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntFinishViewController.swift; sourceTree = "<group>"; };
+		2F079C4D22663D92005F78FE /* Fireworks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fireworks.swift; sourceTree = "<group>"; };
+		2F079C4F226647D9005F78FE /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		2F079C5122664ECB005F78FE /* HuntCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HuntCollectionViewCell.swift; path = "U-Hunt/Views/HuntCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		2F087358225FD4F300238DC8 /* Page4CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page4CreateViewController.swift; sourceTree = "<group>"; };
 		2F08735B225FE21600238DC8 /* StopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopTableViewCell.swift; sourceTree = "<group>"; };
 		2F08735D225FE25800238DC8 /* CustomCalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomCalloutView.swift; path = "U-Hunt/Views/CustomCallout/CustomCalloutView.swift"; sourceTree = SOURCE_ROOT; };
@@ -134,6 +140,7 @@
 				2F80A53422550CD400EC8392 /* MapViewController.swift */,
 				2F80A53222550A8900EC8392 /* MenuController.swift */,
 				2F80A53E22551A7C00EC8392 /* RangeSliderViewController.swift */,
+				2F079C4F226647D9005F78FE /* ProfileViewController.swift */,
 				2F80A54922566C5300EC8392 /* HuntDetailViewController.swift */,
 				2F80A54B22566C6400EC8392 /* ReviewsViewController.swift */,
 				2F079C432264FDE0005F78FE /* HuntStartViewController.swift */,
@@ -151,6 +158,7 @@
 				2F80A54D22567C3D00EC8392 /* HuntTableViewCell.swift */,
 				2F08735B225FE21600238DC8 /* StopTableViewCell.swift */,
 				2F08735A225FE1A900238DC8 /* New Group */,
+				2F079C5122664ECB005F78FE /* HuntCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -158,8 +166,9 @@
 		2F80A544225557EE00EC8392 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2F5C76622256B16B00946FCA /* LocationManager.swift */,
 				2FF373FE2253D9CB0060C961 /* AppDelegate.swift */,
+				2F5C76622256B16B00946FCA /* LocationManager.swift */,
+				2F079C4D22663D92005F78FE /* Fireworks.swift */,
 				2F80A54722565FB400EC8392 /* CosmosDistrib.swift */,
 				2FF374052253D9CE0060C961 /* Assets.xcassets */,
 				2FF374072253D9CE0060C961 /* LaunchScreen.storyboard */,
@@ -407,12 +416,14 @@
 				2F7F4D962260F73000226832 /* EditStopViewController.swift in Sources */,
 				2F80A53322550A8900EC8392 /* MenuController.swift in Sources */,
 				2F079C4C2266333A005F78FE /* HuntFinishViewController.swift in Sources */,
+				2F079C4E22663D92005F78FE /* Fireworks.swift in Sources */,
 				2FECD4DC225D02F600F9B439 /* StopController.swift in Sources */,
 				2F5C76632256B16B00946FCA /* LocationManager.swift in Sources */,
 				2FECD4BC2257FE4600F9B439 /* Page2CreateViewController.swift in Sources */,
 				2FECD4D4225BC39400F9B439 /* TitleViewController.swift in Sources */,
 				2F08735C225FE21600238DC8 /* StopTableViewCell.swift in Sources */,
 				2F80A5432255237000EC8392 /* RangeSliderTrackLayer.swift in Sources */,
+				2F079C5222664ECB005F78FE /* HuntCollectionViewCell.swift in Sources */,
 				2FECD4D6225BECB700F9B439 /* UserController.swift in Sources */,
 				2F80A53F22551A7C00EC8392 /* RangeSliderViewController.swift in Sources */,
 				2F7F4D982260F95500226832 /* FinishCreateViewController.swift in Sources */,
@@ -434,6 +445,7 @@
 				2FECD4DA225CFBDB00F9B439 /* Stop.swift in Sources */,
 				2FECD4CB225969AD00F9B439 /* LogInViewController.swift in Sources */,
 				2FECD4BE225801FE00F9B439 /* Page3CreateViewController.swift in Sources */,
+				2F079C50226647D9005F78FE /* ProfileViewController.swift in Sources */,
 				2F80A53D2255184D00EC8392 /* RangeSlider.swift in Sources */,
 				2F80A53522550CD400EC8392 /* MapViewController.swift in Sources */,
 			);

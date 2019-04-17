@@ -18,8 +18,10 @@ class MapViewController: UIViewController {
     let blackView = UIView()
     var distanceFilter = 30
     var huntDetailCalloutView: HuntDetailCalloutView?
+    var hasNotRefreshed = true
     
     // MARK: - IBOutlets
+    @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var menuContainerView: UIView!
     @IBOutlet weak var mapView: MKMapView!
@@ -31,10 +33,18 @@ class MapViewController: UIViewController {
         
         let views = Bundle.main.loadNibNamed("HuntDetailCalloutView", owner: nil, options: nil)
         self.huntDetailCalloutView = views?[0] as? HuntDetailCalloutView
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(segueToProfile), name: NSNotification.Name("profileButtonTappedFromMap"), object: nil)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        let notification = Notification(name: Notification.Name(rawValue: "mapPageAppeared"), object: nil)
+        NotificationCenter.default.post(notification)
         
         if distanceFilter != HuntController.shared.distanceFilter {
             distanceFilter = HuntController.shared.distanceFilter
@@ -42,13 +52,6 @@ class MapViewController: UIViewController {
         } else if HuntController.shared.newHuntCreated {
             refreshHunts()
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        LocationManager.shared.currentLocation = mapView.userLocation.location
-        refreshHunts()
     }
     
     override func viewDidLayoutSubviews() {
@@ -64,6 +67,16 @@ class MapViewController: UIViewController {
             blackView.frame = CGRect(x: 0, y: self.searchBar.frame.origin.x, width: window.frame.width, height: height!)
             blackView.alpha = 0
             view.bringSubviewToFront(menuContainerView)
+        }
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc func segueToProfile() {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "toProfileVC", sender: nil)
         }
     }
     
@@ -113,6 +126,8 @@ class MapViewController: UIViewController {
     }
     
     func refreshHunts() {
+        self.loadingView.alpha = 1
+        
         HuntController.shared.fetchpublicHuntsWithinDistanceInMiles(HuntController.shared.distanceFilter) { (didFetch) in
             if didFetch {
                 DispatchQueue.main.async {
@@ -127,6 +142,9 @@ class MapViewController: UIViewController {
                         self.mapView.addAnnotation(annotation)
                     }
                     
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.loadingView.alpha = 0
+                    })
                     self.mapView.showAnnotations(self.mapView.annotations, animated: true)
                 }
             }
@@ -208,8 +226,15 @@ extension MapViewController: MKMapViewDelegate {
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HuntDetailVC") as! HuntDetailViewController
             guard let hunt = sender.layer.value(forKey: "hunt") as? Hunt else { return }
             vc.hunt = hunt
-//            self.navigationController?.pushViewController(vc, animated: true)
             self.performSegue(withIdentifier: "toDetailVC", sender: sender)
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        if hasNotRefreshed {
+            LocationManager.shared.currentLocation = userLocation.location
+            refreshHunts()
+            hasNotRefreshed = false
         }
     }
 }
@@ -243,7 +268,7 @@ extension MKAnnotationView {
 // MARK: - Search Bar Delegate
 extension MapViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchText = searchBar.text else { return }
+        guard let searchText = searchBar.text, !searchText.isEmpty else { return }
         HuntController.shared.fetchHuntWithID(searchText) { (didFetch) in
             if didFetch {
                 DispatchQueue.main.async {
@@ -258,11 +283,11 @@ extension MapViewController: UISearchBarDelegate {
                         self.mapView.addAnnotation(annotation)
                         self.mapView.showAnnotations([annotation], animated: true)
                     }
-                    
-                    searchBar.resignFirstResponder()
                 }
             }
         }
+        
+        searchBar.resignFirstResponder()
     }
 }
 

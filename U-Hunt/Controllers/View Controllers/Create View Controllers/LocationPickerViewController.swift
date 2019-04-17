@@ -80,6 +80,7 @@ class LocationPickerViewController: UIViewController {
         okButton.isHidden = false
         self.mapView.removeAnnotations(self.mapView.annotations)
         searchResults = []
+        self.view.endEditing(true)
     }
     
     @IBAction func okButtonTapped(_ sender: Any) {
@@ -96,7 +97,7 @@ class LocationPickerViewController: UIViewController {
         }
         
         if stop == nil {
-            StopController.shared.saveStopWith(location: location, name: name, instructions: "Travel to \(name) for your next clue!", info: "Welcome to \(name)!", questionAndAnswer: nil)
+            StopController.shared.saveStopWith(location: location, name: name, instructions: "Travel to \(name) for your next clue!", info: "Welcome!", questionAndAnswer: nil)
         } else {
             StopController.shared.modify(stop: stop!, location: location, name: name, instructions: nil, info: "Welcome to \(name)!", questionAndAnswer: nil, atIndex: index)
         }

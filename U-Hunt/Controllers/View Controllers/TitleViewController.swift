@@ -66,8 +66,7 @@ extension TitleViewController: CLLocationManagerDelegate {
             guard let currentLocation = locations.last,
                 let targetLocation = LocationManager.shared.targetLocation else { return }
             
-            if currentLocation.distance(from: targetLocation) < 10 {
-                print("You have arrived")
+            if currentLocation.distance(from: targetLocation) < 5000 {
                 let notification = Notification(name: Notification.Name(rawValue: "arrived"), object: nil)
                 NotificationCenter.default.post(notification)
             }
