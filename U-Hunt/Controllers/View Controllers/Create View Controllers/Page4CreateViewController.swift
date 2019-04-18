@@ -88,7 +88,7 @@ class Page4CreateViewController: UIViewController {
         }
         
         if let hunt = hunt {
-            HuntController.shared.modify(hunt: hunt, title: title, description: description, stopsIDs: stopIDs, distance: distance, reviewIDs: nil, avgRating: nil, thumbnailImage: thumbnailImage, privacy: privacy)
+            HuntController.shared.modify(hunt: hunt, title: title, description: huntDescription, stopsIDs: stopIDs, distance: distance, reviewIDs: nil, avgRating: nil, thumbnailImage: thumbnailImage, privacy: privacy)
             
             for vc in navigationController!.viewControllers {
                 if vc.restorationIdentifier == "HuntDetailVC" {
