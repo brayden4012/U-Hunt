@@ -44,7 +44,7 @@ class UserController {
     }
     
     func update(user: User, username: String?, profileImage: UIImage?) {
-        guard let currentUserRef = currentUserRef else { return }
+        let currentUserRef = usersRef.child(user.uid)
         var user = user
         
         if username != nil {
@@ -58,6 +58,7 @@ class UserController {
             
             let child = storageRef.child(user.username)
             
+            child.delete(completion: nil)
             child.putData(imageData, metadata: nil) { (metadata, error) in
                 if let error = error {
                     print("Error storing image: \(error), \(error.localizedDescription)")
@@ -79,11 +80,11 @@ class UserController {
     }
     
     func fetchUserWithUID(_ uid: String, completion: @escaping (User?) -> Void) {
-        usersRef.queryEqual(toValue: uid).observe(.value) { (snapshot) in
+        usersRef.child(uid).observe(.value) { (snapshot) in
             guard var user = User(snapshot: snapshot),
                 let imagePath = user.imagePath else { completion(nil); return }
             
-            Storage.storage().reference(withPath: imagePath).getData(maxSize: 1 * 1024 * 1024, completion: { (data, error) in
+            Storage.storage().reference(withPath: imagePath).getData(maxSize: 1024 * 1024 * 1024, completion: { (data, error) in
                 if let error = error {
                     print("Error getting image data: \(error), \(error.localizedDescription)")
                     completion(nil)

@@ -9,9 +9,11 @@
 import Foundation
 import CoreLocation
 
-class LocationManager {
+class LocationManager: NSObject {
     // MARK: - Singleton/Shared Instance
     static let shared = LocationManager()
     
     var currentLocation: CLLocation?
+    var isInAHunt = false
+    var targetLocation: CLLocation?
 }

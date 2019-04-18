@@ -8,7 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		1B484F0BC58A1F7F33C47F5F /* Pods_U_Hunt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8A46AACB62B0822D59FF6C /* Pods_U_Hunt.framework */; };
+		2F079C442264FDE0005F78FE /* HuntStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C432264FDE0005F78FE /* HuntStartViewController.swift */; };
+		2F079C4C2266333A005F78FE /* HuntFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C4B2266333A005F78FE /* HuntFinishViewController.swift */; };
+		2F079C4E22663D92005F78FE /* Fireworks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C4D22663D92005F78FE /* Fireworks.swift */; };
+		2F079C50226647D9005F78FE /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C4F226647D9005F78FE /* ProfileViewController.swift */; };
+		2F079C5222664ECB005F78FE /* HuntCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C5122664ECB005F78FE /* HuntCollectionViewCell.swift */; };
+		2F087359225FD4F300238DC8 /* Page4CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F087358225FD4F300238DC8 /* Page4CreateViewController.swift */; };
+		2F08735C225FE21600238DC8 /* StopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08735B225FE21600238DC8 /* StopTableViewCell.swift */; };
+		2F087360225FE25800238DC8 /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F08735D225FE25800238DC8 /* CustomCalloutView.swift */; };
+		2F087361225FE25800238DC8 /* CustomCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F08735E225FE25800238DC8 /* CustomCalloutView.xib */; };
 		2F5C76632256B16B00946FCA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5C76622256B16B00946FCA /* LocationManager.swift */; };
+		2F7F4D962260F73000226832 /* EditStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7F4D952260F73000226832 /* EditStopViewController.swift */; };
+		2F7F4D982260F95500226832 /* FinishCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7F4D972260F95500226832 /* FinishCreateViewController.swift */; };
+		2F7F4D9C2263C33F00226832 /* HuntDetailCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F7F4D9B2263C33F00226832 /* HuntDetailCalloutView.xib */; };
+		2F7F4D9E2263C58C00226832 /* HuntDetailCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7F4D9D2263C58C00226832 /* HuntDetailCalloutView.swift */; };
 		2F80A53122550A8200EC8392 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F80A53022550A8200EC8392 /* HomeController.swift */; };
 		2F80A53322550A8900EC8392 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F80A53222550A8900EC8392 /* MenuController.swift */; };
 		2F80A53522550CD400EC8392 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F80A53422550CD400EC8392 /* MapViewController.swift */; };
@@ -25,7 +38,6 @@
 		2FECD4BA2257EA0E00F9B439 /* Page1CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4B92257EA0E00F9B439 /* Page1CreateViewController.swift */; };
 		2FECD4BC2257FE4600F9B439 /* Page2CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4BB2257FE4600F9B439 /* Page2CreateViewController.swift */; };
 		2FECD4BE225801FE00F9B439 /* Page3CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4BD225801FE00F9B439 /* Page3CreateViewController.swift */; };
-		2FECD4C422580EE000F9B439 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4C322580EE000F9B439 /* LocationTableViewCell.swift */; };
 		2FECD4C62258121700F9B439 /* HuntController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4C52258121700F9B439 /* HuntController.swift */; };
 		2FECD4CB225969AD00F9B439 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4CA225969AD00F9B439 /* LogInViewController.swift */; };
 		2FECD4CD22596EE400F9B439 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4CC22596EE400F9B439 /* SignUpViewController.swift */; };
@@ -34,6 +46,8 @@
 		2FECD4D4225BC39400F9B439 /* TitleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4D3225BC39400F9B439 /* TitleViewController.swift */; };
 		2FECD4D6225BECB700F9B439 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4D5225BECB700F9B439 /* UserController.swift */; };
 		2FECD4DA225CFBDB00F9B439 /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4D9225CFBDB00F9B439 /* Stop.swift */; };
+		2FECD4DC225D02F600F9B439 /* StopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4DB225D02F600F9B439 /* StopController.swift */; };
+		2FECD4DE225D4B2E00F9B439 /* LocationPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FECD4DD225D4B2D00F9B439 /* LocationPickerViewController.swift */; };
 		2FF373FF2253D9CB0060C961 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF373FE2253D9CB0060C961 /* AppDelegate.swift */; };
 		2FF374042253D9CC0060C961 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FF374022253D9CB0060C961 /* Main.storyboard */; };
 		2FF374062253D9CE0060C961 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FF374052253D9CE0060C961 /* Assets.xcassets */; };
@@ -41,7 +55,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F079C432264FDE0005F78FE /* HuntStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntStartViewController.swift; sourceTree = "<group>"; };
+		2F079C4B2266333A005F78FE /* HuntFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntFinishViewController.swift; sourceTree = "<group>"; };
+		2F079C4D22663D92005F78FE /* Fireworks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fireworks.swift; sourceTree = "<group>"; };
+		2F079C4F226647D9005F78FE /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		2F079C5122664ECB005F78FE /* HuntCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HuntCollectionViewCell.swift; path = "U-Hunt/Views/HuntCollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		2F087358225FD4F300238DC8 /* Page4CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page4CreateViewController.swift; sourceTree = "<group>"; };
+		2F08735B225FE21600238DC8 /* StopTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopTableViewCell.swift; sourceTree = "<group>"; };
+		2F08735D225FE25800238DC8 /* CustomCalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomCalloutView.swift; path = "U-Hunt/Views/CustomCallout/CustomCalloutView.swift"; sourceTree = SOURCE_ROOT; };
+		2F08735E225FE25800238DC8 /* CustomCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CustomCalloutView.xib; path = "U-Hunt/Views/CustomCallout/CustomCalloutView.xib"; sourceTree = SOURCE_ROOT; };
 		2F5C76622256B16B00946FCA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		2F7F4D952260F73000226832 /* EditStopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStopViewController.swift; sourceTree = "<group>"; };
+		2F7F4D972260F95500226832 /* FinishCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishCreateViewController.swift; sourceTree = "<group>"; };
+		2F7F4D9B2263C33F00226832 /* HuntDetailCalloutView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = HuntDetailCalloutView.xib; path = "U-Hunt/Views/HuntDetailCalloutView.xib"; sourceTree = SOURCE_ROOT; };
+		2F7F4D9D2263C58C00226832 /* HuntDetailCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HuntDetailCalloutView.swift; path = "U-Hunt/Views/HuntDetailCalloutView.swift"; sourceTree = SOURCE_ROOT; };
 		2F80A53022550A8200EC8392 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		2F80A53222550A8900EC8392 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		2F80A53422550CD400EC8392 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -58,7 +85,6 @@
 		2FECD4B92257EA0E00F9B439 /* Page1CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page1CreateViewController.swift; sourceTree = "<group>"; };
 		2FECD4BB2257FE4600F9B439 /* Page2CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page2CreateViewController.swift; sourceTree = "<group>"; };
 		2FECD4BD225801FE00F9B439 /* Page3CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page3CreateViewController.swift; sourceTree = "<group>"; };
-		2FECD4C322580EE000F9B439 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		2FECD4C52258121700F9B439 /* HuntController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntController.swift; sourceTree = "<group>"; };
 		2FECD4CA225969AD00F9B439 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		2FECD4CC22596EE400F9B439 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +94,8 @@
 		2FECD4D3225BC39400F9B439 /* TitleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleViewController.swift; sourceTree = "<group>"; };
 		2FECD4D5225BECB700F9B439 /* UserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
 		2FECD4D9225CFBDB00F9B439 /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
+		2FECD4DB225D02F600F9B439 /* StopController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopController.swift; sourceTree = "<group>"; };
+		2FECD4DD225D4B2D00F9B439 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
 		2FF373FB2253D9CB0060C961 /* U-Hunt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "U-Hunt.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FF373FE2253D9CB0060C961 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2FF374032253D9CB0060C961 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -91,6 +119,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F08735A225FE1A900238DC8 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				2F08735E225FE25800238DC8 /* CustomCalloutView.xib */,
+				2F08735D225FE25800238DC8 /* CustomCalloutView.swift */,
+				2F7F4D9B2263C33F00226832 /* HuntDetailCalloutView.xib */,
+				2F7F4D9D2263C58C00226832 /* HuntDetailCalloutView.swift */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		2F80A53A225517F200EC8392 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -101,8 +140,11 @@
 				2F80A53422550CD400EC8392 /* MapViewController.swift */,
 				2F80A53222550A8900EC8392 /* MenuController.swift */,
 				2F80A53E22551A7C00EC8392 /* RangeSliderViewController.swift */,
+				2F079C4F226647D9005F78FE /* ProfileViewController.swift */,
 				2F80A54922566C5300EC8392 /* HuntDetailViewController.swift */,
 				2F80A54B22566C6400EC8392 /* ReviewsViewController.swift */,
+				2F079C432264FDE0005F78FE /* HuntStartViewController.swift */,
+				2F079C4B2266333A005F78FE /* HuntFinishViewController.swift */,
 				2FECD4C72259695A00F9B439 /* Create View Controllers */,
 			);
 			path = "View Controllers";
@@ -114,7 +156,9 @@
 				2F80A5422255237000EC8392 /* RangeSliderTrackLayer.swift */,
 				2F80A53C2255184C00EC8392 /* RangeSlider.swift */,
 				2F80A54D22567C3D00EC8392 /* HuntTableViewCell.swift */,
-				2FECD4C322580EE000F9B439 /* LocationTableViewCell.swift */,
+				2F08735B225FE21600238DC8 /* StopTableViewCell.swift */,
+				2F08735A225FE1A900238DC8 /* New Group */,
+				2F079C5122664ECB005F78FE /* HuntCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -123,6 +167,8 @@
 			isa = PBXGroup;
 			children = (
 				2FF373FE2253D9CB0060C961 /* AppDelegate.swift */,
+				2F5C76622256B16B00946FCA /* LocationManager.swift */,
+				2F079C4D22663D92005F78FE /* Fireworks.swift */,
 				2F80A54722565FB400EC8392 /* CosmosDistrib.swift */,
 				2FF374052253D9CE0060C961 /* Assets.xcassets */,
 				2FF374072253D9CE0060C961 /* LaunchScreen.storyboard */,
@@ -136,10 +182,10 @@
 		2F80A55122567EAA00EC8392 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2F80A54F22567EA400EC8392 /* Hunt.swift */,
-				2F80A5522256800E00EC8392 /* Review.swift */,
 				2F80A554225680ED00EC8392 /* User.swift */,
 				2FECD4D9225CFBDB00F9B439 /* Stop.swift */,
+				2F80A54F22567EA400EC8392 /* Hunt.swift */,
+				2F80A5522256800E00EC8392 /* Review.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -150,6 +196,10 @@
 				2FECD4B92257EA0E00F9B439 /* Page1CreateViewController.swift */,
 				2FECD4BB2257FE4600F9B439 /* Page2CreateViewController.swift */,
 				2FECD4BD225801FE00F9B439 /* Page3CreateViewController.swift */,
+				2FECD4DD225D4B2D00F9B439 /* LocationPickerViewController.swift */,
+				2F087358225FD4F300238DC8 /* Page4CreateViewController.swift */,
+				2F7F4D952260F73000226832 /* EditStopViewController.swift */,
+				2F7F4D972260F95500226832 /* FinishCreateViewController.swift */,
 			);
 			path = "Create View Controllers";
 			sourceTree = "<group>";
@@ -157,8 +207,9 @@
 		2FECD4C82259696B00F9B439 /*  Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2FECD4C52258121700F9B439 /* HuntController.swift */,
 				2FECD4D5225BECB700F9B439 /* UserController.swift */,
+				2FECD4DB225D02F600F9B439 /* StopController.swift */,
+				2FECD4C52258121700F9B439 /* HuntController.swift */,
 			);
 			path = " Model Controllers";
 			sourceTree = "<group>";
@@ -199,7 +250,6 @@
 				2F80A53B2255180100EC8392 /* Views */,
 				2FECD4C92259698600F9B439 /* Controllers */,
 				2F80A544225557EE00EC8392 /* Resources */,
-				2F5C76622256B16B00946FCA /* LocationManager.swift */,
 			);
 			path = "U-Hunt";
 			sourceTree = "<group>";
@@ -292,6 +342,8 @@
 				2FF374092253D9CE0060C961 /* LaunchScreen.storyboard in Resources */,
 				2FECD4D2225BBD9A00F9B439 /* GoogleService-Info.plist in Resources */,
 				2FF374062253D9CE0060C961 /* Assets.xcassets in Resources */,
+				2F7F4D9C2263C33F00226832 /* HuntDetailCalloutView.xib in Resources */,
+				2F087361225FE25800238DC8 /* CustomCalloutView.xib in Resources */,
 				2FF374042253D9CC0060C961 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,29 +411,41 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FECD4CD22596EE400F9B439 /* SignUpViewController.swift in Sources */,
+				2F7F4D9E2263C58C00226832 /* HuntDetailCalloutView.swift in Sources */,
 				2F80A54E22567C3D00EC8392 /* HuntTableViewCell.swift in Sources */,
+				2F7F4D962260F73000226832 /* EditStopViewController.swift in Sources */,
 				2F80A53322550A8900EC8392 /* MenuController.swift in Sources */,
+				2F079C4C2266333A005F78FE /* HuntFinishViewController.swift in Sources */,
+				2F079C4E22663D92005F78FE /* Fireworks.swift in Sources */,
+				2FECD4DC225D02F600F9B439 /* StopController.swift in Sources */,
 				2F5C76632256B16B00946FCA /* LocationManager.swift in Sources */,
 				2FECD4BC2257FE4600F9B439 /* Page2CreateViewController.swift in Sources */,
 				2FECD4D4225BC39400F9B439 /* TitleViewController.swift in Sources */,
+				2F08735C225FE21600238DC8 /* StopTableViewCell.swift in Sources */,
 				2F80A5432255237000EC8392 /* RangeSliderTrackLayer.swift in Sources */,
+				2F079C5222664ECB005F78FE /* HuntCollectionViewCell.swift in Sources */,
 				2FECD4D6225BECB700F9B439 /* UserController.swift in Sources */,
 				2F80A53F22551A7C00EC8392 /* RangeSliderViewController.swift in Sources */,
+				2F7F4D982260F95500226832 /* FinishCreateViewController.swift in Sources */,
 				2FECD4C62258121700F9B439 /* HuntController.swift in Sources */,
 				2F80A55022567EA400EC8392 /* Hunt.swift in Sources */,
 				2F80A54822565FB400EC8392 /* CosmosDistrib.swift in Sources */,
 				2F80A555225680ED00EC8392 /* User.swift in Sources */,
 				2FF373FF2253D9CB0060C961 /* AppDelegate.swift in Sources */,
+				2FECD4DE225D4B2E00F9B439 /* LocationPickerViewController.swift in Sources */,
+				2F079C442264FDE0005F78FE /* HuntStartViewController.swift in Sources */,
 				2F80A54A22566C5300EC8392 /* HuntDetailViewController.swift in Sources */,
 				2F80A5532256800E00EC8392 /* Review.swift in Sources */,
 				2FECD4BA2257EA0E00F9B439 /* Page1CreateViewController.swift in Sources */,
-				2FECD4C422580EE000F9B439 /* LocationTableViewCell.swift in Sources */,
 				2F80A54C22566C6400EC8392 /* ReviewsViewController.swift in Sources */,
 				2FECD4CF225BA9CE00F9B439 /* ValidDomains.swift in Sources */,
 				2F80A53122550A8200EC8392 /* HomeController.swift in Sources */,
+				2F087359225FD4F300238DC8 /* Page4CreateViewController.swift in Sources */,
+				2F087360225FE25800238DC8 /* CustomCalloutView.swift in Sources */,
 				2FECD4DA225CFBDB00F9B439 /* Stop.swift in Sources */,
 				2FECD4CB225969AD00F9B439 /* LogInViewController.swift in Sources */,
 				2FECD4BE225801FE00F9B439 /* Page3CreateViewController.swift in Sources */,
+				2F079C50226647D9005F78FE /* ProfileViewController.swift in Sources */,
 				2F80A53D2255184D00EC8392 /* RangeSlider.swift in Sources */,
 				2F80A53522550CD400EC8392 /* MapViewController.swift in Sources */,
 			);
@@ -541,7 +605,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.braydenharris.U-Hunt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -561,7 +625,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.braydenharris.U-Hunt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

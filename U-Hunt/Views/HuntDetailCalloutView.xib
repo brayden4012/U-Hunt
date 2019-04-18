@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HuntDetailCalloutView" customModule="U_Hunt" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pirateMap" translatesAutoresizingMaskIntoConstraints="NO" id="f4X-hb-wP7">
+                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="f4X-hb-wP7" secondAttribute="height" multiplier="1:1" id="TPC-uW-Xj0"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CbE-F2-BEM">
+                    <rect key="frame" x="130" y="30" width="40" height="40"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Distance)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4BK-DX-d7U">
+                    <rect key="frame" x="0.0" y="79" width="200" height="21"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="4BK-DX-d7U" secondAttribute="trailing" id="3zo-7q-cko"/>
+                <constraint firstItem="4BK-DX-d7U" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="7Sc-EJ-Gzu"/>
+                <constraint firstItem="f4X-hb-wP7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="EpU-tT-oAe"/>
+                <constraint firstItem="CbE-F2-BEM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="30" id="GqI-kv-V6c"/>
+                <constraint firstItem="f4X-hb-wP7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="LtB-10-uEx"/>
+                <constraint firstAttribute="trailing" secondItem="CbE-F2-BEM" secondAttribute="trailing" constant="30" id="Pxf-mN-y6o"/>
+                <constraint firstAttribute="bottom" secondItem="CbE-F2-BEM" secondAttribute="bottom" constant="30" id="SAM-wT-9n7"/>
+                <constraint firstItem="CbE-F2-BEM" firstAttribute="leading" secondItem="f4X-hb-wP7" secondAttribute="trailing" constant="30" id="SC0-bT-tGf"/>
+                <constraint firstItem="f4X-hb-wP7" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="URC-Cs-fGN"/>
+                <constraint firstAttribute="bottom" secondItem="4BK-DX-d7U" secondAttribute="bottom" id="aLd-FO-nxv"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="buttonView" destination="CbE-F2-BEM" id="eQG-u9-1Z1"/>
+                <outlet property="distanceLabel" destination="4BK-DX-d7U" id="Thr-jr-HhO"/>
+                <outlet property="huntImageView" destination="f4X-hb-wP7" id="4pX-AK-3WO"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="pirateMap" width="133.33332824707031" height="88.666664123535156"/>
+    </resources>
+</document>

@@ -50,7 +50,7 @@ struct User {
             let uid = value["uid"] as? String,
             let email = value["email"] as? String,
             let username = value["username"] as? String,
-            let imagePath = value["profileImagePath"] as? String else { return nil }
+            let imagePath = value["profileImageRef"] as? String else { return nil }
         
         self.ref = snapshot.ref
         self.uid = uid
@@ -64,7 +64,7 @@ struct User {
             "uid": uid,
             "email": email,
             "username": username,
-            "profileImagePath": imagePath
+            "profileImageRef": imagePath
         ]
     }
 }

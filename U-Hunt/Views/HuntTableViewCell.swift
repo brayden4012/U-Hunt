@@ -11,22 +11,28 @@ import UIKit
 class HuntTableViewCell: UITableViewCell {
 
     // MARK: - Propterties
-    var hunt: Hunt?
+    var hunt: Hunt? {
+        didSet {
+            updateViews()
+        }
+    }
     
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    func updateViews() {
+        guard let hunt = hunt,
+            let startLocation = hunt.startLocation,
+            let distanceInMeters = LocationManager.shared.currentLocation?.distance(from: startLocation) else { return }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        let distanceInMiles = Double(distanceInMeters) / 1609.34
+        
+        thumbnailImageView.image = hunt.thumbnailImage
+        titleLabel.text = hunt.title
+        descriptionLabel.text = hunt.description
+        distanceLabel.text = "\(Int(distanceInMiles)) miles away"
     }
 
 }

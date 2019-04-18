@@ -8,17 +8,17 @@
 
 import UIKit
 import Firebase
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        GMSServices.provideAPIKey("AIzaSyA50MHl8Us7LgMddcyQOolY5fRQ9ekfpCY")
-//        GMSPlacesClient.provideAPIKey("AIzaSyA50MHl8Us7LgMddcyQOolY5fRQ9ekfpCY")
+        UNUserNotificationCenter.current().delegate = self
         
         FirebaseApp.configure()
         

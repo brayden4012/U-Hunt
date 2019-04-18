@@ -12,6 +12,7 @@ import Firebase
 class MenuController: UIViewController {
     
     // MARK: - Properties
+    var currentVC = "home"
     var rangeSliderVC: RangeSliderViewController?
     
     // MARK: - IBOutlets
@@ -25,6 +26,10 @@ class MenuController: UIViewController {
     // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(changeVCToHome), name: NSNotification.Name("homePageAppeared"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeVCToMap), name: NSNotification.Name("mapPageAppeared"), object: nil)
+
         
         rangeSliderVC = children.first as? RangeSliderViewController
         
@@ -51,7 +56,15 @@ class MenuController: UIViewController {
                 self.distanceLabel.text = "\(Int(distanceSlider.value.rounded(.up))) miles"
             }
         }
-        // TODO: Change search results
+        HuntController.shared.distanceFilter = Int(distanceSlider.value.rounded(.up))
+    }
+    
+    @objc func changeVCToHome() {
+        currentVC = "home"
+    }
+    
+    @objc func changeVCToMap() {
+        currentVC = "map"
     }
     
     // MARK: - IBActions
@@ -106,6 +119,17 @@ class MenuController: UIViewController {
         } catch (let error) {
             print("Auth sign out failed: \(error)")
         }
+    }
+    
+    @IBAction func profileButtonTapped(_ sender: Any) {
+        if currentVC == "home" {
+            let notification = Notification(name: Notification.Name(rawValue: "profileButtonTappedFromHome"), object: nil)
+            NotificationCenter.default.post(notification)
+        } else {
+            let notification = Notification(name: Notification.Name(rawValue: "profileButtonTappedFromMap"), object: nil)
+            NotificationCenter.default.post(notification)
+        }
+        
     }
 }
 
