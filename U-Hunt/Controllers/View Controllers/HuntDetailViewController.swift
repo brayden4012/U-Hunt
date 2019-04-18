@@ -8,21 +8,18 @@
 
 import UIKit
 import MapKit
+import Firebase
 
 class HuntDetailViewController: UIViewController {
     
     // MARK: - Properties
-    var hunt: Hunt? {
-        didSet {
-            loadViewIfNeeded()
-            updateViews()
-        }
-    }
+    var hunt: Hunt? 
     
     var stops: [Stop]?
     
     // MARK: - IBOutlets
 
+    @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var gameModeView: UIView!
     @IBOutlet weak var gameModeViewTopRestraint: NSLayoutConstraint!
     @IBOutlet weak var thumbnailBackgroundImageView: UIImageView!
@@ -43,6 +40,7 @@ class HuntDetailViewController: UIViewController {
     // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let hunt = hunt else { return }
         
         self.titleLabel.adjustsFontSizeToFitWidth = true
         self.huntIDButton.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -56,6 +54,12 @@ class HuntDetailViewController: UIViewController {
         letsGoButton.layer.masksToBounds = true
         letsGoButton.clipsToBounds = true
         letsGoButton.layer.cornerRadius = letsGoButton.frame.width / 8.25
+        editButton.title = ""
+        
+        if Auth.auth().currentUser?.uid == hunt.creatorID {
+            editButton.isEnabled = true
+            editButton.title = "Edit"
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +68,8 @@ class HuntDetailViewController: UIViewController {
         guard let navBarHeight = self.navigationController?.navigationBar.frame.height else { return }
         gameModeViewTopRestraint.constant = -(navBarHeight)
         cancelTopRestraint.constant = navBarHeight
+        
+        updateViews()
     }
     
     func updateViews() {
@@ -108,7 +114,7 @@ class HuntDetailViewController: UIViewController {
             
             let startAnnotation = MKPointAnnotation()
             startAnnotation.title = "Start"
-            startAnnotation.coordinate = currentLocation.coordinate
+            startAnnotation.coordinate = startLocation.coordinate
             self.mapView.addAnnotation(startAnnotation)
             
             let endAnnotation = MKPointAnnotation()
@@ -125,9 +131,16 @@ class HuntDetailViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func editButtonTapped(_ sender: Any) {
+        //Segue to editVC
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "toEditVC", sender: nil)
+        }
+    }
+    
     @IBAction func huntIDButtonTapped(_ sender: Any) {
         guard let hunt = hunt, let huntID = hunt.id else { return }
-        let activityVC = UIActivityViewController(activityItems: ["Come check out out this scavenger hunt on U-Hunt! Use this ID to find it once you download the app: \n \(huntID)"], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: ["Come check out out this scavenger hunt on U-Hunt! Use this ID to find it once you download the app: \n \(huntID) \n https://itunes.apple.com/us/app/u-hunt/id1460180195?ls=1&mt=8"], applicationActivities: nil)
         DispatchQueue.main.async {
             self.present(activityVC, animated: true)
         }
@@ -166,6 +179,14 @@ class HuntDetailViewController: UIViewController {
                 let stops = stops else { return }
             destinationVC.hunt = hunt
             destinationVC.stops = stops
+        }
+        
+        if segue.identifier == "toEditVC" {
+            guard let destinationVC = segue.destination as? Page1CreateViewController,
+                let hunt = hunt,
+                let stops = stops else { return }
+            destinationVC.hunt = hunt
+            StopController.shared.stops = stops
         }
     }
 

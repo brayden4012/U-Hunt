@@ -18,6 +18,7 @@ class Page4CreateViewController: UIViewController {
     var privacy: String?
     var stops: [Stop]?
     var huntDistance: Double?
+    var hunt: Hunt?
     
     var stopToEdit: Stop?
     var stopIndex: Int?
@@ -55,6 +56,10 @@ class Page4CreateViewController: UIViewController {
         DispatchQueue.main.async {
             self.stopsTableView.reloadData()
         }
+        
+        if hunt != nil {
+            createButton.setTitle("Save Hunt", for: .normal)
+        }
     }
     
     // MARK: - IBActions
@@ -82,7 +87,18 @@ class Page4CreateViewController: UIViewController {
             }
         }
         
-        if let thumbnail = thumbnailImage {
+        if let hunt = hunt {
+            HuntController.shared.modify(hunt: hunt, title: title, description: huntDescription, stopsIDs: stopIDs, distance: distance, reviewIDs: nil, avgRating: nil, thumbnailImage: thumbnailImage, privacy: privacy)
+            
+            for vc in navigationController!.viewControllers {
+                if vc.restorationIdentifier == "HuntDetailVC" {
+                    DispatchQueue.main.async {
+                        self.navigationController?.popToViewController(vc, animated: true)
+                    }
+                }
+            }
+            
+        } else if let thumbnail = thumbnailImage {
             HuntController.shared.saveHuntWith(title: title, description: huntDescription, stopsIDs: stopIDs, distance: distance, reviewIDs: nil, creatorID: creatorID, thumbnailImage: thumbnail, privacy: privacy) { (hunt) in
                 
                 guard let hunt = hunt else { return }
@@ -108,7 +124,12 @@ class Page4CreateViewController: UIViewController {
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        StopController.shared.deleteAllStops()
+        if hunt == nil {
+            StopController.shared.deleteAllStops()
+        } else {
+            StopController.shared.stops.removeAll()
+        }
+        
         DispatchQueue.main.async {
             self.navigationController?.popToRootViewController(animated: true)
         }

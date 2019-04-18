@@ -19,12 +19,14 @@ class Page3CreateViewController: UIViewController {
     var calloutView: CustomCalloutView?
     var activityIndicator: UIActivityIndicatorView?
     var locationPlacemarks: [CLPlacemark]?
+    var hunt: Hunt?
     
     // MARK: - IBOutlets
     @IBOutlet weak var stopsTableView: UITableView!
     @IBOutlet weak var instructionsLabel: UILabel!
     @IBOutlet weak var addStopButton: UIButton!
     @IBOutlet weak var addStopButtonHeight: NSLayoutConstraint!
+    @IBOutlet weak var addStopButtonTopRestraint: NSLayoutConstraint!
     @IBOutlet weak var mapView: MKMapView!
     
     // MARK: - Life Cycle Methods
@@ -144,7 +146,12 @@ class Page3CreateViewController: UIViewController {
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        StopController.shared.deleteAllStops()
+        if hunt == nil {
+            StopController.shared.deleteAllStops()
+        } else {
+            StopController.shared.stops.removeAll()
+        }
+        
         DispatchQueue.main.async {
             self.navigationController?.popToRootViewController(animated: true)
         }
@@ -229,15 +236,23 @@ class Page3CreateViewController: UIViewController {
             if let thumbnail = thumbnailImage {
                 destinationVC.thumbnailImage = thumbnail
             }
+            if let hunt = hunt {
+                destinationVC.hunt = hunt
+            }
         }
     }
 
 }
 extension Page3CreateViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        addStopButtonTopRestraint.constant = 0
         switch StopController.shared.stops.count {
         case 0...1:
             addStopButton.isHidden = true
+            return 2
+        case 2:
+            addStopButton.isHidden = false
+            addStopButtonTopRestraint.constant = -(tableView.frame.height / 3)
             return 2
         default:
             addStopButton.isHidden = false

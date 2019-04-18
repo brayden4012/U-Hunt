@@ -15,6 +15,7 @@ class Page2CreateViewController: UIViewController {
     var descriptionLandingPad: String?
     var thumbnailImage: UIImage?
     var privacy: String?
+    var hunt: Hunt?
     
     // MARK: - IBOIutlets
     @IBOutlet weak var instructionsLabel: UILabel!
@@ -33,6 +34,15 @@ class Page2CreateViewController: UIViewController {
         
         anyoneButton.layer.cornerRadius = anyoneButton.frame.width / 14
         linkButton.layer.cornerRadius = linkButton.frame.width / 14
+        
+        if let hunt = hunt {
+            privacy = hunt.privacy
+            if hunt.privacy == "publicHunt" {
+                anyoneButton.isHighlighted = true
+            } else {
+                linkButton.isHighlighted = true
+            }
+        }
     }
     
     // MARK: - IBActions
@@ -85,6 +95,10 @@ class Page2CreateViewController: UIViewController {
             }
             if let thumbnail = thumbnailImage {
                 destinationVC?.thumbnailImage = thumbnail
+            }
+            
+            if let hunt = hunt {
+                destinationVC?.hunt = hunt
             }
         }
     }
