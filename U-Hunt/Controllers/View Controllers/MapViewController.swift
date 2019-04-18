@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import MapKit
+import UserNotifications
 
 class MapViewController: UIViewController {
 
@@ -51,6 +52,19 @@ class MapViewController: UIViewController {
             refreshHunts()
         } else if HuntController.shared.newHuntCreated {
             refreshHunts()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
+            if let error = error {
+                print(error)
+            }
+            if granted == false {
+                print("User did not grant permission for notifications")
+            }
         }
     }
     

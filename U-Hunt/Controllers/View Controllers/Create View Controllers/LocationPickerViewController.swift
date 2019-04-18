@@ -47,6 +47,8 @@ class LocationPickerViewController: UIViewController {
         let region = MKCoordinateRegion(center: location, latitudinalMeters: 4000, longitudinalMeters: 4000)
         mapView.setRegion(region, animated: true)
         
+        okButton.layoutIfNeeded()
+        okButton.layer.masksToBounds = true
         okButton.layer.cornerRadius = okButton.frame.width / 2
         
         if stop != nil {
@@ -187,11 +189,6 @@ extension LocationPickerViewController: UITableViewDelegate {
 }
 // MARK: - SearchBar Delegate
 extension LocationPickerViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        pin.isHidden = true
-        okButton.isHidden = true
-        searchForPlacesWithText(searchText)
-    }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
@@ -199,6 +196,10 @@ extension LocationPickerViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text, !searchText.isEmpty else { return }
+        pin.isHidden = true
+        okButton.isHidden = true
+        searchForPlacesWithText(searchText)
         searchBar.resignFirstResponder()
     }
     

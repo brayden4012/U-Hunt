@@ -540,6 +540,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3H1-SE-EFR">
                                 <rect key="frame" x="342" y="702" width="62" height="62"/>
                                 <color key="backgroundColor" red="0.96395617720000004" green="0.76375985150000003" blue="0.26255750659999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="GQr-aC-fDY"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="56"/>
                                 <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                 <state key="normal" image="plusSign">
@@ -555,7 +558,7 @@
                             <constraint firstItem="GeN-LZ-e1I" firstAttribute="trailing" secondItem="z0s-NR-g1G" secondAttribute="trailing" id="0Gk-ld-Oty"/>
                             <constraint firstAttribute="bottom" secondItem="Tmy-QQ-1HB" secondAttribute="bottom" id="3L5-0H-z1f"/>
                             <constraint firstItem="GeN-LZ-e1I" firstAttribute="top" secondItem="FWu-Ll-nFr" secondAttribute="top" id="40T-DN-9iL"/>
-                            <constraint firstItem="3H1-SE-EFR" firstAttribute="width" secondItem="FWu-Ll-nFr" secondAttribute="width" multiplier="0.15" id="5qz-FN-J06"/>
+                            <constraint firstItem="3H1-SE-EFR" firstAttribute="width" secondItem="FWu-Ll-nFr" secondAttribute="width" multiplier="0.15" priority="900" id="5qz-FN-J06"/>
                             <constraint firstItem="z0s-NR-g1G" firstAttribute="trailing" secondItem="3H1-SE-EFR" secondAttribute="trailing" constant="10" id="ADL-Ff-rMt"/>
                             <constraint firstItem="MCf-By-Yv6" firstAttribute="top" secondItem="z0s-NR-g1G" secondAttribute="top" id="Dfi-V3-l8J"/>
                             <constraint firstItem="Tmy-QQ-1HB" firstAttribute="top" secondItem="MCf-By-Yv6" secondAttribute="bottom" id="EnQ-fe-fdP"/>
@@ -653,6 +656,7 @@
                                 <color key="backgroundColor" red="0.96395617720000004" green="0.76375985150000003" blue="0.26255750659999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="YYS-ia-5fR" secondAttribute="height" multiplier="1:1" id="pso-Ol-MHB"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="sXZ-Hn-ZoN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="56"/>
                                 <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
@@ -714,7 +718,7 @@
                             <constraint firstItem="MYY-OZ-b3w" firstAttribute="top" secondItem="uWK-Le-3p1" secondAttribute="bottom" id="7kk-jy-Xby"/>
                             <constraint firstItem="bnb-Ch-FDo" firstAttribute="trailing" secondItem="MYY-OZ-b3w" secondAttribute="trailing" id="Qdd-4S-Xjf"/>
                             <constraint firstItem="uWK-Le-3p1" firstAttribute="leading" secondItem="bnb-Ch-FDo" secondAttribute="leading" id="SQR-jd-55m"/>
-                            <constraint firstItem="YYS-ia-5fR" firstAttribute="width" secondItem="DDg-0P-TgU" secondAttribute="width" multiplier="0.15" id="Y3a-dF-dma"/>
+                            <constraint firstItem="YYS-ia-5fR" firstAttribute="width" secondItem="DDg-0P-TgU" secondAttribute="width" multiplier="0.15" priority="900" id="Y3a-dF-dma"/>
                             <constraint firstItem="Gc5-GE-9MI" firstAttribute="leading" secondItem="DDg-0P-TgU" secondAttribute="leading" id="eFS-SC-Sqi"/>
                             <constraint firstItem="bnb-Ch-FDo" firstAttribute="bottom" secondItem="YYS-ia-5fR" secondAttribute="bottom" constant="10" id="edX-5E-XnJ"/>
                             <constraint firstItem="Nfg-hq-2kh" firstAttribute="bottom" secondItem="DDg-0P-TgU" secondAttribute="bottom" id="eeu-q5-Bnl"/>
@@ -810,10 +814,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="300" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="KhT-bA-uQD">
-                                        <rect key="frame" x="69.5" y="0.0" width="161.5" height="36.5"/>
+                                        <rect key="frame" x="69.5" y="6" width="161.5" height="24"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pmf-4b-88S" userLabel="RatingView" customClass="CosmosView" customModule="U_Hunt" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="140" height="36.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="140" height="24"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
@@ -835,7 +839,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(4)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjl-b2-Hnb">
-                                                <rect key="frame" x="142" y="0.0" width="19.5" height="36.5"/>
+                                                <rect key="frame" x="142" y="0.0" width="19.5" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
