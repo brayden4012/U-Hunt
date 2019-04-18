@@ -13,6 +13,7 @@ class Page1CreateViewController: UIViewController {
     // MARK: - Properties
     var keyboardHeight: CGFloat?
     var selectedImage: UIImage?
+    var hunt: Hunt?
     
     // MARK: - IBOutlets
     @IBOutlet weak var scrollView: UIScrollView!
@@ -47,6 +48,13 @@ class Page1CreateViewController: UIViewController {
         let fontInt = Int((view.frame.height * 0.14) / 8)
         let fontSize = CGFloat(fontInt)
         descriptionTextView.font = UIFont.systemFont(ofSize: fontSize)
+        
+        if let hunt = hunt {
+            thumbnailImageView.image = hunt.thumbnailImage
+            titleTextField.text = hunt.title
+            descriptionTextView.text = hunt.description
+            descriptionCharCountLabel.text = "\(descriptionTextView.text.count) / 500"
+        }
     }
     
     @objc func dismissKeyboard() {
@@ -98,6 +106,10 @@ class Page1CreateViewController: UIViewController {
             if let thumbnail = selectedImage {
                 destinationVC?.thumbnailImage = thumbnail
             }
+            
+            if let hunt = hunt {
+                destinationVC?.hunt = hunt
+            }
         }
     }
 }
@@ -138,9 +150,9 @@ extension Page1CreateViewController: UITextViewDelegate {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
         
-        if numberOfChars <= 250 {
+        if numberOfChars <= 500 {
             descriptionCharCountLabel.textColor = .white
-            descriptionCharCountLabel.text = "\(numberOfChars) / 250"
+            descriptionCharCountLabel.text = "\(numberOfChars) / 500"
             
             return true
         } else {

@@ -75,11 +75,11 @@ class EditStopViewController: UIViewController {
         nameTextField.layer.borderWidth = 0
         
         hintTextView.text = stop.instructions
-        hintCharCountLabel.text = "0 / 250"
+        hintCharCountLabel.text = "\(hintTextView.text.count) / 250"
         hintCharCountLabel.textColor = .white
         
         infoTextView.text = stop.info
-        infoCharCountLabel.text = "0 / 250"
+        infoCharCountLabel.text = "\(infoTextView.text.count) / 250"
         infoCharCountLabel.textColor = .white
         
         questionTextField.text = stop.questionAndAnswer?[0]
@@ -107,8 +107,8 @@ class EditStopViewController: UIViewController {
         guard let stop = stop,
             let index = indexOfStop,
             let name = nameTextField.text,
-            var instructions = hintTextView.text,
-            var info = infoTextView.text,
+            let instructions = hintTextView.text,
+            let info = infoTextView.text,
             let question = questionTextField.text else { return }
         
         if name.isEmpty {
@@ -162,13 +162,13 @@ extension EditStopViewController: UITextViewDelegate {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
         
-        if numberOfChars <= 250 {
+        if numberOfChars <= 500 {
             if textView.restorationIdentifier == "hintTextView" {
                 hintCharCountLabel.textColor = .white
-                hintCharCountLabel.text = "\(numberOfChars) / 250"
+                hintCharCountLabel.text = "\(numberOfChars) / 500"
             } else {
                 infoCharCountLabel.textColor = .white
-                infoCharCountLabel.text = "\(numberOfChars) / 250"
+                infoCharCountLabel.text = "\(numberOfChars) / 500"
             }
             return true
         } else {

@@ -34,7 +34,7 @@ class HuntFinishViewController: UIViewController {
     // MARK: - IBActions
     @IBAction func idButtonTapped(_ sender: Any) {
         guard let hunt = hunt, let huntID = hunt.id else { return }
-        let activityVC = UIActivityViewController(activityItems: ["Come check out out the scavenger hunt I just completed with U-Hunt! Use this ID to find it once you download the app: \n \(huntID)"], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: ["Come check out out the scavenger hunt I just completed with U-Hunt! Use this ID to find it once you download the app: \n \(huntID) \n https://itunes.apple.com/us/app/u-hunt/id1460180195?ls=1&mt=8"], applicationActivities: nil)
         DispatchQueue.main.async {
             self.present(activityVC, animated: true)
         }
