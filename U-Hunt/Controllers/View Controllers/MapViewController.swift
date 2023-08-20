@@ -23,6 +23,7 @@ class MapViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var locationPermissionView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var menuContainerView: UIView!
     @IBOutlet weak var mapView: MKMapView!
@@ -47,25 +48,30 @@ class MapViewController: UIViewController {
         let notification = Notification(name: Notification.Name(rawValue: "mapPageAppeared"), object: nil)
         NotificationCenter.default.post(notification)
         
-        if distanceFilter != HuntController.shared.distanceFilter {
-            distanceFilter = HuntController.shared.distanceFilter
-            refreshHunts()
-        } else if HuntController.shared.newHuntCreated {
-            refreshHunts()
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        distanceFilter = HuntController.shared.distanceFilter
+        refreshHunts()
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
             if let error = error {
                 print(error)
             }
             if granted == false {
-                print("User did not grant permission for notifications")
+                DispatchQueue.main.async {
+                    self.locationPermissionView.isHidden = false
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.locationPermissionView.isHidden = true
+                }
             }
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        LocationManager.shared.currentLocation = mapView.userLocation.location
+        menuOpen = false
     }
     
     override func viewDidLayoutSubviews() {

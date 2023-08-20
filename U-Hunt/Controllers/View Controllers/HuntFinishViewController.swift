@@ -28,6 +28,9 @@ class HuntFinishViewController: UIViewController {
         YouHaveFinishedLabel.adjustsFontSizeToFitWidth = true
         DidYouEnjoyLabel.adjustsFontSizeToFitWidth = true
         shareLabel.adjustsFontSizeToFitWidth = true
+        
+        idButton.layer.masksToBounds = true
+        idButton.layer.cornerRadius = 10
         idButton.setTitle(hunt?.id, for: .normal)
     }
 
