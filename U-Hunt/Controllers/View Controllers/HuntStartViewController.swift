@@ -25,11 +25,13 @@ class HuntStartViewController: UIViewController {
     var numQuestions = 0
     var currentStopIndex = 0
     var progress = 0
+    var mapViewHeight: CGFloat?
 
     // MARK: - IBOutlets
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var instructionsLabel: UILabel!
+    @IBOutlet weak var instructionsLabelHeightRestraint: NSLayoutConstraint!
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var questionView: UIView!
     @IBOutlet weak var questionViewTopRestraint: NSLayoutConstraint!
@@ -43,6 +45,7 @@ class HuntStartViewController: UIViewController {
         super.viewDidLoad()
         
         self.instructionsLabel.adjustsFontSizeToFitWidth = true
+        
         LocationManager.shared.isInAHunt = true
         LocationManager.shared.targetLocation = stops?[currentStopIndex].location
         
@@ -57,13 +60,8 @@ class HuntStartViewController: UIViewController {
                 numQuestions += 1
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-//        guard let navBarHeight = self.navigationController?.navigationBar.frame.height else { return }
-//        questionViewTopRestraint.constant = navBarHeight
+        mapViewHeight = mapView.frame.height
     }
     
     @objc func presentLocationInfo() {
@@ -73,6 +71,10 @@ class HuntStartViewController: UIViewController {
         progress += 1
         UIView.animate(withDuration: 0.5) {
             self.progressView.progress = Float(1.0 / Double(stops.count + self.numQuestions)) * Float(self.progress)
+            
+            self.instructionsLabelHeightRestraint.constant += self.mapView.frame.height
+            self.instructionsLabel.layoutIfNeeded()
+            self.instructionsLabel.numberOfLines = 0
         }
         
         mapView.removeAnnotations(mapView.annotations)
@@ -112,8 +114,6 @@ class HuntStartViewController: UIViewController {
         self.mapView.addAnnotation(startAnnotation)
         mapView.showAnnotations(mapView.annotations, animated: true)
         
-//        mapView.addSubview(questionView)
-        
         LocationManager.shared.targetLocation = stops[currentStopIndex].location
         NotificationCenter.default.addObserver(self, selector: #selector(presentLocationInfo), name: NSNotification.Name("arrived"), object: nil)
     }
@@ -126,18 +126,24 @@ class HuntStartViewController: UIViewController {
     }
     
     @IBAction func okButtonTapped(_ sender: Any) {
-        guard let stops = stops else { return }
+        guard let stops = stops,
+            let mapViewHeight = mapViewHeight else { return }
         okButton.isHidden = true
+        
         if let questionAndAnswer = stops[currentStopIndex].questionAndAnswer {
             questionLabel.text = questionAndAnswer[0]
             incorrectAnswerLabel.isHidden = true
             DispatchQueue.main.async {
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: .transitionCrossDissolve, animations: {
                     self.navigationController?.navigationBar.layer.zPosition = -1
                     self.navigationController?.navigationBar.alpha = 0
                     self.questionView.alpha = 1
                     self.view.bringSubviewToFront(self.questionView)
-                }
+                }, completion: { (_) in
+                    self.instructionsLabelHeightRestraint.constant -=  mapViewHeight
+                    self.instructionsLabel.layoutIfNeeded()
+                    self.instructionsLabel.numberOfLines = 4
+                })
             }
         } else {
             currentStopIndex += 1
@@ -147,6 +153,9 @@ class HuntStartViewController: UIViewController {
                 }
             } else {
                 updateViews()
+                self.instructionsLabelHeightRestraint.constant -=  mapViewHeight
+                self.instructionsLabel.layoutIfNeeded()
+                self.instructionsLabel.numberOfLines = 4
             }
         }
     }
@@ -159,6 +168,8 @@ class HuntStartViewController: UIViewController {
         guard let stops = stops else { return }
         currentStopIndex += 1
         progress += 1
+        answerTextField.text = ""
+        
         if currentStopIndex == stops.count {
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "toFinishVC", sender: nil)
@@ -187,6 +198,8 @@ class HuntStartViewController: UIViewController {
         let joinedSets = CharacterSet.punctuationCharacters.intersection(CharacterSet.alphanumerics)
         let correctAnswer = questionAndAnswer[1].lowercased().components(separatedBy: joinedSets).joined()
         let userAnswer = answer.lowercased().components(separatedBy: joinedSets).joined()
+        
+        answerTextField.text = ""
         
         if userAnswer == correctAnswer {
             DispatchQueue.main.async {

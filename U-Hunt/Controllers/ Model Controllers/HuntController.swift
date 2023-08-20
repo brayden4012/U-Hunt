@@ -274,9 +274,15 @@ class HuntController {
         currentHuntRef.updateChildValues(updateValues)
     }
     
-    func delete(hunt: Hunt) {
-        guard let huntID = hunt.id else { return }
+    func delete(hunt: Hunt, completion: @escaping (Bool) -> Void) {
+        guard let huntID = hunt.id else { completion(false); return }
+        
+        for stopID in hunt.stopsIDs {
+            stopsRef.child(stopID).removeValue()
+        }
         
         huntsRef.child(huntID).removeValue()
+        
+        completion(true)
     }
 }

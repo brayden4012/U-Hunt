@@ -112,9 +112,8 @@ class MenuController: UIViewController {
     @IBAction func logoutButtonTapped(_ sender: Any) {
         do {
             try Auth.auth().signOut()
-            let titleScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TitleScreen")
             DispatchQueue.main.async {
-                self.present(titleScreen, animated: true)
+                self.dismiss(animated: true)
             }
         } catch (let error) {
             print("Auth sign out failed: \(error)")

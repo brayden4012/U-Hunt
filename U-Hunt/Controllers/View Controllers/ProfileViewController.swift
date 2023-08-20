@@ -16,7 +16,6 @@ class ProfileViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.huntsCollectionView.reloadData()
-
             }
         }
     }
@@ -108,6 +107,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         cell?.hunt = hunts[indexPath.row]
         
+        cell?.delegate = self
+        
         return cell ?? UICollectionViewCell()
     }
 }
@@ -147,5 +148,38 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         }
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(actionSheet, animated: true)
+    }
+}
+
+extension ProfileViewController: HuntCollectionViewCellDelegate {
+    func delete(hunt: Hunt) {
+        let huntToDelete = hunt
+        
+        let alertController = UIAlertController(title: "Delete Hunt?", message: "Are you sure you want to delete this hunt?", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (deleteTapped) in
+            HuntController.shared.delete(hunt: hunt) { (didDelete) in
+                if didDelete {
+                    guard let myHunts = self.myHunts else { return }
+                    
+                    let newHunts = myHunts.filter({ (hunt) -> Bool in
+                        return hunt.id != huntToDelete.id
+                    })
+                    
+                    self.myHunts = newHunts
+                    
+                    DispatchQueue.main.async {
+                        self.huntsCollectionView.reloadData()
+                    }
+                }
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 }
