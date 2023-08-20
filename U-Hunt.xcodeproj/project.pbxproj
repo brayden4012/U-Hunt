@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B484F0BC58A1F7F33C47F5F /* Pods_U_Hunt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD8A46AACB62B0822D59FF6C /* Pods_U_Hunt.framework */; };
 		2F079C442264FDE0005F78FE /* HuntStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C432264FDE0005F78FE /* HuntStartViewController.swift */; };
 		2F079C4C2266333A005F78FE /* HuntFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C4B2266333A005F78FE /* HuntFinishViewController.swift */; };
 		2F079C4E22663D92005F78FE /* Fireworks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F079C4D22663D92005F78FE /* Fireworks.swift */; };
@@ -52,6 +51,10 @@
 		2FF374062253D9CE0060C961 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FF374052253D9CE0060C961 /* Assets.xcassets */; };
 		2FF374092253D9CE0060C961 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FF374072253D9CE0060C961 /* LaunchScreen.storyboard */; };
 		2FFF1BEA2A92D1E70043A1B6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FFF1BE92A92D1E70043A1B6 /* GoogleService-Info.plist */; };
+		EC829FEF2A92D434005B6C2D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = EC829FEE2A92D434005B6C2D /* FirebaseAuth */; };
+		EC829FF12A92D434005B6C2D /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = EC829FF02A92D434005B6C2D /* FirebaseDatabase */; };
+		EC829FF32A92D434005B6C2D /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EC829FF22A92D434005B6C2D /* FirebaseDatabaseSwift */; };
+		EC829FF52A92D434005B6C2D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = EC829FF42A92D434005B6C2D /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,16 +98,13 @@
 		2FECD4D9225CFBDB00F9B439 /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
 		2FECD4DB225D02F600F9B439 /* StopController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopController.swift; sourceTree = "<group>"; };
 		2FECD4DD225D4B2D00F9B439 /* LocationPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerViewController.swift; sourceTree = "<group>"; };
-		2FF373FB2253D9CB0060C961 /* U-Hunt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "U-Hunt.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FF373FE2253D9CB0060C961 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2FF374032253D9CB0060C961 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2FF374052253D9CE0060C961 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FF374082253D9CE0060C961 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2FF3740A2253D9CE0060C961 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2FFF1BE92A92D1E70043A1B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		9CAE0FF2B5075F41289454CE /* Pods-U-Hunt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-U-Hunt.release.xcconfig"; path = "Target Support Files/Pods-U-Hunt/Pods-U-Hunt.release.xcconfig"; sourceTree = "<group>"; };
-		AAC0A41D7AB95573B344FECE /* Pods-U-Hunt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-U-Hunt.debug.xcconfig"; path = "Target Support Files/Pods-U-Hunt/Pods-U-Hunt.debug.xcconfig"; sourceTree = "<group>"; };
-		BD8A46AACB62B0822D59FF6C /* Pods_U_Hunt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_U_Hunt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC829FF82A92D5DF005B6C2D /* U-Hunt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "U-Hunt.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +112,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B484F0BC58A1F7F33C47F5F /* Pods_U_Hunt.framework in Frameworks */,
+				EC829FF32A92D434005B6C2D /* FirebaseDatabaseSwift in Frameworks */,
+				EC829FF12A92D434005B6C2D /* FirebaseDatabase in Frameworks */,
+				EC829FF52A92D434005B6C2D /* FirebaseStorage in Frameworks */,
+				EC829FEF2A92D434005B6C2D /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,18 +230,8 @@
 			isa = PBXGroup;
 			children = (
 				2FF373FD2253D9CB0060C961 /* U-Hunt */,
-				2FF373FC2253D9CB0060C961 /* Products */,
-				E6E28E9A011D1D8DBFC97BC4 /* Pods */,
-				A0726C5DA05BCEA84519043D /* Frameworks */,
+				EC829FF82A92D5DF005B6C2D /* U-Hunt.app */,
 			);
-			sourceTree = "<group>";
-		};
-		2FF373FC2253D9CB0060C961 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2FF373FB2253D9CB0060C961 /* U-Hunt.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		2FF373FD2253D9CB0060C961 /* U-Hunt */ = {
@@ -254,23 +247,6 @@
 			path = "U-Hunt";
 			sourceTree = "<group>";
 		};
-		A0726C5DA05BCEA84519043D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				BD8A46AACB62B0822D59FF6C /* Pods_U_Hunt.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E6E28E9A011D1D8DBFC97BC4 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				AAC0A41D7AB95573B344FECE /* Pods-U-Hunt.debug.xcconfig */,
-				9CAE0FF2B5075F41289454CE /* Pods-U-Hunt.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -278,19 +254,23 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2FF3740D2253D9CE0060C961 /* Build configuration list for PBXNativeTarget "U-Hunt" */;
 			buildPhases = (
-				CC7CB12A8BA22F68D946B024 /* [CP] Check Pods Manifest.lock */,
 				2FF373F72253D9CB0060C961 /* Sources */,
 				2FF373F82253D9CB0060C961 /* Frameworks */,
 				2FF373F92253D9CB0060C961 /* Resources */,
-				C9424E6929268A2AD92E2EB1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "U-Hunt";
+			packageProductDependencies = (
+				EC829FEE2A92D434005B6C2D /* FirebaseAuth */,
+				EC829FF02A92D434005B6C2D /* FirebaseDatabase */,
+				EC829FF22A92D434005B6C2D /* FirebaseDatabaseSwift */,
+				EC829FF42A92D434005B6C2D /* FirebaseStorage */,
+			);
 			productName = "U-Hunt";
-			productReference = 2FF373FB2253D9CB0060C961 /* U-Hunt.app */;
+			productReference = EC829FF82A92D5DF005B6C2D /* U-Hunt.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -325,7 +305,10 @@
 				Base,
 			);
 			mainGroup = 2FF373F22253D9CB0060C961;
-			productRefGroup = 2FF373FC2253D9CB0060C961 /* Products */;
+			packageReferences = (
+				EC829FED2A92D434005B6C2D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			productRefGroup = 2FF373F22253D9CB0060C961;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -349,61 +332,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		C9424E6929268A2AD92E2EB1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-U-Hunt/Pods-U-Hunt-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-U-Hunt/Pods-U-Hunt-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CC7CB12A8BA22F68D946B024 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-U-Hunt-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2FF373F72253D9CB0060C961 /* Sources */ = {
@@ -591,17 +519,20 @@
 		};
 		2FF3740E2253D9CE0060C961 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AAC0A41D7AB95573B344FECE /* Pods-U-Hunt.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "U-Hunt/U-Hunt.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SUD83636UR;
 				INFOPLIST_FILE = "$(SRCROOT)/U-Hunt/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "U-Hunt";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.adventure-games";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.braydenharris.U-Hunt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -611,17 +542,20 @@
 		};
 		2FF3740F2253D9CE0060C961 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CAE0FF2B5075F41289454CE /* Pods-U-Hunt.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "U-Hunt/U-Hunt.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SUD83636UR;
 				INFOPLIST_FILE = "$(SRCROOT)/U-Hunt/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "U-Hunt";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.adventure-games";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.braydenharris.U-Hunt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -651,6 +585,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EC829FED2A92D434005B6C2D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EC829FEE2A92D434005B6C2D /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC829FED2A92D434005B6C2D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		EC829FF02A92D434005B6C2D /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC829FED2A92D434005B6C2D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		EC829FF22A92D434005B6C2D /* FirebaseDatabaseSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC829FED2A92D434005B6C2D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabaseSwift;
+		};
+		EC829FF42A92D434005B6C2D /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC829FED2A92D434005B6C2D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2FF373F32253D9CB0060C961 /* Project object */;
 }
