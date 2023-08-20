@@ -62,6 +62,7 @@ class ProfileViewController: UIViewController {
     }
     
     func fetchCurrentUser(completion: @escaping (Bool) -> Void) {
+        loadingView.alpha = 1.0
         guard let uid = Auth.auth().currentUser?.uid else { completion(false); return }
         
         UserController.shared.fetchUserWithUID(uid) { (user) in

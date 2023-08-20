@@ -143,7 +143,7 @@ class SignUpViewController: UIViewController {
         }
         
         // Check if the provided email is already a user
-        Auth.auth().fetchProviders(forEmail: email) { (emailIDs, error) in
+        Auth.auth().fetchSignInMethods(forEmail: email) { (emailIDs, error) in
             if let error = error {
                 print("Error fetching users from Firebase: \(error), \(error.localizedDescription)")
                 completion(false)
