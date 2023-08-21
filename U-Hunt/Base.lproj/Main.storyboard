@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -648,12 +649,6 @@
                                     <outlet property="delegate" destination="89M-up-WM2" id="QQZ-nN-305"/>
                                 </connections>
                             </searchBar>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="satellite" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MYY-OZ-b3w">
-                                <rect key="frame" x="0.0" y="56" width="414" height="796"/>
-                                <connections>
-                                    <outlet property="delegate" destination="89M-up-WM2" id="7sN-7H-PGI"/>
-                                </connections>
-                            </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YYS-ia-5fR">
                                 <rect key="frame" x="342" y="780" width="62" height="62"/>
                                 <color key="backgroundColor" red="0.96395617720000004" green="0.76375985150000003" blue="0.26255750659999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -680,6 +675,10 @@
                                     <segue destination="pXh-JZ-kfj" kind="embed" id="w6Y-l9-sH6"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4XT-Vp-drm" userLabel="Map Container View">
+                                <rect key="frame" x="0.0" y="56" width="414" height="796"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gc5-GE-9MI" userLabel="Loading View">
                                 <rect key="frame" x="0.0" y="56" width="414" height="796"/>
                                 <subviews>
@@ -717,7 +716,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="852"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Iox-KJ-OJz">
-                                        <rect key="frame" x="10" y="356" width="394" height="140"/>
+                                        <rect key="frame" x="10" y="283" width="394" height="286"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location Permission Not Granted" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pFM-xR-V1P">
                                                 <rect key="frame" x="43" y="0.0" width="308.5" height="60"/>
@@ -726,17 +725,65 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Go to your settings and allow us to access your location in order to find and participate in local scavenger hunts." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDX-wp-bsi">
-                                                <rect key="frame" x="0.0" y="80" width="394" height="60"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" name="HoeflerText-Black" family="Hoefler Text" pointSize="20"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="bLo-s7-ybM">
+                                                <rect key="frame" x="8.5" y="80" width="377" height="144"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="In order to find and participate in local scavenger hunts, you will need to share your location with us! To do this:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDX-wp-bsi">
+                                                        <rect key="frame" x="0.0" y="0.0" width="377" height="60"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" name="HoeflerText-Black" family="Hoefler Text" pointSize="20"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Tap the button below" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WF2-Iu-cOD">
+                                                        <rect key="frame" x="0.0" y="63" width="201" height="18"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" name="HoeflerText-Black" family="Hoefler Text" pointSize="18"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2. Tap the &quot;Privacy &amp; Security&quot; option" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xSX-Pj-V84">
+                                                        <rect key="frame" x="0.0" y="84" width="328" height="18"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" name="HoeflerText-Black" family="Hoefler Text" pointSize="18"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3. Tap &quot;Location Services&quot;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J04-EU-NUi">
+                                                        <rect key="frame" x="0.0" y="105" width="226.5" height="18"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" name="HoeflerText-Black" family="Hoefler Text" pointSize="18"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4. Find &quot;U-Hunt&quot; in the list of apps" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAr-kg-2zq">
+                                                        <rect key="frame" x="0.0" y="126" width="301" height="18"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" name="HoeflerText-Black" family="Hoefler Text" pointSize="18"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9R-o6-WOA">
+                                                <rect key="frame" x="99" y="244" width="196" height="42"/>
+                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Go to Settings" cornerStyle="capsule">
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="backgroundColor" name="AccentColor"/>
+                                                    </backgroundConfiguration>
+                                                    <fontDescription key="titleFontDescription" name="HoeflerText-Regular" family="Hoefler Text" pointSize="28"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="goToSettingsTapped:" destination="89M-up-WM2" eventType="touchUpInside" id="pfk-wf-oud"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" name="AccentColor"/>
                                 <constraints>
                                     <constraint firstItem="Iox-KJ-OJz" firstAttribute="centerY" secondItem="NDB-Hn-TaU" secondAttribute="centerY" id="3ro-Sv-hGk"/>
                                     <constraint firstItem="Iox-KJ-OJz" firstAttribute="leading" secondItem="NDB-Hn-TaU" secondAttribute="leading" constant="10" id="XTq-HR-vqv"/>
@@ -750,23 +797,23 @@
                             <constraint firstItem="uWK-Le-3p1" firstAttribute="top" secondItem="bnb-Ch-FDo" secondAttribute="top" id="0Ns-bm-fzC"/>
                             <constraint firstItem="Gc5-GE-9MI" firstAttribute="top" secondItem="uWK-Le-3p1" secondAttribute="bottom" id="2wR-wy-XXL"/>
                             <constraint firstItem="NDB-Hn-TaU" firstAttribute="trailing" secondItem="bnb-Ch-FDo" secondAttribute="trailing" id="6gt-r6-2Qe"/>
-                            <constraint firstItem="MYY-OZ-b3w" firstAttribute="top" secondItem="uWK-Le-3p1" secondAttribute="bottom" id="7kk-jy-Xby"/>
-                            <constraint firstItem="bnb-Ch-FDo" firstAttribute="trailing" secondItem="MYY-OZ-b3w" secondAttribute="trailing" id="Qdd-4S-Xjf"/>
+                            <constraint firstItem="4XT-Vp-drm" firstAttribute="top" secondItem="uWK-Le-3p1" secondAttribute="bottom" id="Egf-qv-HdW"/>
                             <constraint firstItem="NDB-Hn-TaU" firstAttribute="top" secondItem="DDg-0P-TgU" secondAttribute="top" id="QqB-i3-AAd"/>
                             <constraint firstItem="uWK-Le-3p1" firstAttribute="leading" secondItem="bnb-Ch-FDo" secondAttribute="leading" id="SQR-jd-55m"/>
                             <constraint firstAttribute="bottom" secondItem="NDB-Hn-TaU" secondAttribute="bottom" id="XTl-Dy-xPL"/>
                             <constraint firstItem="YYS-ia-5fR" firstAttribute="width" secondItem="DDg-0P-TgU" secondAttribute="width" multiplier="0.15" priority="900" id="Y3a-dF-dma"/>
                             <constraint firstItem="NDB-Hn-TaU" firstAttribute="leading" secondItem="Nfg-hq-2kh" secondAttribute="trailing" id="Ybc-0D-Orf"/>
+                            <constraint firstItem="bnb-Ch-FDo" firstAttribute="trailing" secondItem="4XT-Vp-drm" secondAttribute="trailing" id="cVw-AE-hyu"/>
                             <constraint firstItem="Gc5-GE-9MI" firstAttribute="leading" secondItem="DDg-0P-TgU" secondAttribute="leading" id="eFS-SC-Sqi"/>
                             <constraint firstItem="bnb-Ch-FDo" firstAttribute="bottom" secondItem="YYS-ia-5fR" secondAttribute="bottom" constant="10" id="edX-5E-XnJ"/>
                             <constraint firstItem="Nfg-hq-2kh" firstAttribute="bottom" secondItem="DDg-0P-TgU" secondAttribute="bottom" id="eeu-q5-Bnl"/>
                             <constraint firstItem="Nfg-hq-2kh" firstAttribute="top" secondItem="uWK-Le-3p1" secondAttribute="top" id="gLP-9S-Mcp"/>
                             <constraint firstAttribute="bottom" secondItem="Gc5-GE-9MI" secondAttribute="bottom" id="ohc-ir-sLA"/>
                             <constraint firstItem="Nfg-hq-2kh" firstAttribute="leading" secondItem="bnb-Ch-FDo" secondAttribute="leading" constant="-200" id="q1H-o2-h8b"/>
+                            <constraint firstItem="4XT-Vp-drm" firstAttribute="leading" secondItem="Nfg-hq-2kh" secondAttribute="trailing" id="uWz-QB-aNo"/>
                             <constraint firstItem="uWK-Le-3p1" firstAttribute="trailing" secondItem="bnb-Ch-FDo" secondAttribute="trailing" id="umg-Mz-FtN"/>
-                            <constraint firstAttribute="bottom" secondItem="MYY-OZ-b3w" secondAttribute="bottom" id="vV2-Aj-O1U"/>
                             <constraint firstAttribute="trailing" secondItem="YYS-ia-5fR" secondAttribute="trailing" constant="10" id="vyF-wo-ukz"/>
-                            <constraint firstItem="MYY-OZ-b3w" firstAttribute="leading" secondItem="Nfg-hq-2kh" secondAttribute="trailing" id="wNu-Lb-bkH"/>
+                            <constraint firstItem="bnb-Ch-FDo" firstAttribute="bottom" secondItem="4XT-Vp-drm" secondAttribute="bottom" id="x0x-Rz-Yf8"/>
                             <constraint firstItem="bnb-Ch-FDo" firstAttribute="trailing" secondItem="Gc5-GE-9MI" secondAttribute="trailing" id="xRb-KW-i4h"/>
                         </constraints>
                     </view>
@@ -789,9 +836,11 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addButton" destination="YYS-ia-5fR" id="0Yv-zJ-895"/>
+                        <outlet property="listViewButton" destination="haK-t2-Y1a" id="8yf-Cd-6iN"/>
                         <outlet property="loadingView" destination="Gc5-GE-9MI" id="2JS-3m-hLh"/>
                         <outlet property="locationPermissionView" destination="NDB-Hn-TaU" id="3hC-9K-slF"/>
-                        <outlet property="mapView" destination="MYY-OZ-b3w" id="HuK-vJ-iBR"/>
+                        <outlet property="mapContainerView" destination="4XT-Vp-drm" id="2k4-AI-45v"/>
+                        <outlet property="menuButton" destination="lcK-p6-lZ7" id="dqT-8F-09X"/>
                         <outlet property="menuContainerView" destination="Nfg-hq-2kh" id="G35-6V-4y8"/>
                         <outlet property="searchBar" destination="uWK-Le-3p1" id="7dx-6n-4gG"/>
                         <segue destination="kTF-Su-vlY" kind="show" identifier="toDetailVC" id="X2i-xH-a7m"/>
@@ -3148,10 +3197,10 @@
         <segue reference="w6Y-l9-sH6"/>
         <segue reference="yjr-j7-xg3"/>
         <segue reference="P5Y-c0-X0T"/>
-        <segue reference="ELN-Zg-C5p"/>
-        <segue reference="DK2-rw-TJJ"/>
-        <segue reference="rkZ-ly-90J"/>
-        <segue reference="2pZ-67-NGd"/>
+        <segue reference="X2i-xH-a7m"/>
+        <segue reference="xQ2-E5-pnM"/>
+        <segue reference="wBc-A5-uUj"/>
+        <segue reference="glT-4x-OUK"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Pin" width="16" height="46"/>
@@ -3179,6 +3228,9 @@
         <image name="startButton" width="129" height="38.5"/>
         <image name="stripedBackground" width="195" height="345"/>
         <image name="stripedBackground2" width="195.66667175292969" height="342.33334350585938"/>
+        <namedColor name="AccentColor">
+            <color red="1" green="0.79199999570846558" blue="0.15700000524520874" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

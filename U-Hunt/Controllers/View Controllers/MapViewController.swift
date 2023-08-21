@@ -19,20 +19,47 @@ class MapViewController: UIViewController {
     let blackView = UIView()
     var distanceFilter = 30
     var huntDetailCalloutView: HuntDetailCalloutView?
-    var hasNotRefreshed = true
+    var hasReceivedLocation = false
+    var needsRefresh = false
+    lazy var locationManager: CLLocationManager = {
+        let locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        return locationManager
+    }()
+
+    lazy var mapView: MKMapView = {
+        let mapView = MKMapView()
+
+        mapView.mapType = .satellite
+        mapView.showsCompass = true
+        mapView.showsUserLocation = true
+        mapView.showsPointsOfInterest = true
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+        mapView.isRotateEnabled = true
+        mapView.delegate = self
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+
+        return mapView
+    }()
     
     // MARK: - IBOutlets
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var locationPermissionView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var menuContainerView: UIView!
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var addButton: UIButton!
-    
+    @IBOutlet weak var listViewButton: UIBarButtonItem!
+    @IBOutlet weak var menuButton: UIBarButtonItem!
+
     // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        getLocation()
+
         let views = Bundle.main.loadNibNamed("HuntDetailCalloutView", owner: nil, options: nil)
         self.huntDetailCalloutView = views?[0] as? HuntDetailCalloutView
         
@@ -50,27 +77,11 @@ class MapViewController: UIViewController {
         
         distanceFilter = HuntController.shared.distanceFilter
         refreshHunts()
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
-            if let error = error {
-                print(error)
-            }
-            if granted == false {
-                DispatchQueue.main.async {
-                    self.locationPermissionView.isHidden = false
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.locationPermissionView.isHidden = true
-                }
-            }
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        LocationManager.shared.currentLocation = mapView.userLocation.location
         menuOpen = false
     }
     
@@ -115,12 +126,22 @@ class MapViewController: UIViewController {
             openMenu()
         }
     }
-    
+
+    @IBAction func goToSettingsTapped(_ sender: Any) {
+        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+            return
+        }
+
+        if UIApplication.shared.canOpenURL(settingsUrl) {
+            UIApplication.shared.open(settingsUrl)
+        }
+    }
+
     @objc func handleDismiss() {
         closeMenu()
         if distanceFilter != HuntController.shared.distanceFilter {
             distanceFilter = HuntController.shared.distanceFilter
-            refreshHunts()
+            refreshHunts(forced: true)
         }
     }
     
@@ -145,8 +166,10 @@ class MapViewController: UIViewController {
         self.menuOpen = false
     }
     
-    func refreshHunts() {
+    func refreshHunts(forced: Bool = false) {
+        guard needsRefresh || forced else { return }
         self.loadingView.alpha = 1
+        needsRefresh = false
         
         HuntController.shared.fetchpublicHuntsWithinDistanceInMiles(HuntController.shared.distanceFilter) { (didFetch) in
             if didFetch {
@@ -166,6 +189,9 @@ class MapViewController: UIViewController {
                         self.loadingView.alpha = 0
                     })
                     self.mapView.showAnnotations(self.mapView.annotations, animated: true)
+                    Timer.scheduledTimer(withTimeInterval: 60, repeats: false) { _ in
+                        self.needsRefresh = true
+                    }
                 }
             }
         }
@@ -249,14 +275,6 @@ extension MapViewController: MKMapViewDelegate {
             self.performSegue(withIdentifier: "toDetailVC", sender: sender)
         }
     }
-    
-    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        if hasNotRefreshed {
-            LocationManager.shared.currentLocation = userLocation.location
-            refreshHunts()
-            hasNotRefreshed = false
-        }
-    }
 }
 
 extension MKAnnotationView {
@@ -311,3 +329,74 @@ extension MapViewController: UISearchBarDelegate {
     }
 }
 
+extension MapViewController: CLLocationManagerDelegate {
+    func getLocation() {
+        updateUIForAuthorizationStatus()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let currentLocation = locations.last {
+            LocationManager.shared.currentLocation = currentLocation
+        }
+
+        if !hasReceivedLocation {
+            self.hasReceivedLocation = true
+            self.showMapView()
+            self.refreshHunts(forced: true)
+        }
+
+        if LocationManager.shared.isInAHunt {
+            guard let currentLocation = locations.last,
+                let targetLocation = LocationManager.shared.targetLocation else { return }
+
+            if currentLocation.distance(from: targetLocation) < 5 {
+                let notification = Notification(name: Notification.Name(rawValue: "arrived"), object: nil)
+                NotificationCenter.default.post(notification)
+            }
+        } else {
+            self.refreshHunts()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        updateUIForAuthorizationStatus()
+    }
+
+    private func updateUIForAuthorizationStatus() {
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            return
+        case .denied, .restricted:
+            self.locationPermissionView.isHidden = false
+            self.listViewButton.isEnabled = false
+            self.menuButton.isEnabled = false
+            return
+        case .authorizedAlways, .authorizedWhenInUse:
+            self.locationPermissionView.isHidden = true
+            self.listViewButton.isEnabled = true
+            self.menuButton.isEnabled = true
+            DispatchQueue.main.async {
+                self.locationManager.startUpdatingLocation()
+            }
+            break
+
+        @unknown default:
+            fatalError("CLAuthorizationStatus has additional values")
+        }
+    }
+
+    private func showMapView() {
+        mapContainerView.addSubview(mapView)
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: mapContainerView.topAnchor),
+            mapView.leadingAnchor.constraint(equalTo: mapContainerView.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: mapContainerView.trailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: mapContainerView.bottomAnchor)
+        ])
+    }
+}
