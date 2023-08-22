@@ -65,7 +65,7 @@ class HuntController {
     }
     
     func fetchHuntWithID(_ id: String, completion: @escaping (Bool) -> Void) {
-        huntsRef.child(id).observe(.value) { (snapshot) in
+        let handle = huntsRef.child(id).observe(.value) { (snapshot) in
             guard let hunt = Hunt(snapshot: snapshot),
                 let imagePath = hunt.imagePath,
                 let startLocation = hunt.startLocation,
@@ -276,13 +276,31 @@ class HuntController {
     
     func delete(hunt: Hunt, completion: @escaping (Bool) -> Void) {
         guard let huntID = hunt.id else { completion(false); return }
-        
-        for stopID in hunt.stopsIDs {
-            stopsRef.child(stopID).removeValue()
+
+        deleteStops(stopIDs: hunt.stopsIDs) {
+            self.huntsRef.child(huntID).removeValue { error, ref in
+                if let error {
+                    print("Error: \(error.localizedDescription)")
+                } else {
+                    completion(true)
+                }
+            }
         }
-        
-        huntsRef.child(huntID).removeValue()
-        
-        completion(true)
+    }
+
+    func deleteStops(stopIDs: [String], completion: @escaping () -> Void) {
+        var stopIDs = stopIDs
+        guard let stopID = stopIDs.first else {
+            completion()
+            return
+        }
+        stopsRef.child(stopID).removeValue { error, ref in
+            if let error {
+                print("Error deleting stop: \(error)")
+            } else {
+                stopIDs.removeAll(where: { $0 == stopID })
+                self.deleteStops(stopIDs: stopIDs, completion: completion)
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 
 class ProfileViewController: UIViewController {
 
@@ -23,6 +24,7 @@ class ProfileViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var editProfilePicButton: UIButton!
     @IBOutlet weak var huntsCollectionView: UICollectionView!
@@ -31,6 +33,8 @@ class ProfileViewController: UIViewController {
     // MARK: - Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        loadingLabel.text = "Loading your profile..."
         
         profileImageView.layoutIfNeeded()
         profileImageView.layer.masksToBounds = true
@@ -61,6 +65,16 @@ class ProfileViewController: UIViewController {
         presentImagePickerActionSheet()
     }
     
+    @IBAction func deleteAccountButtonTapped(_ sender: Any) {
+        let alert = UIAlertController(title: "Delete account", message: "Are you sure you want to delete your account? This will also delete any hunts you have created.", preferredStyle: .alert)
+        alert.addAction(.init(title: "Delete", style: .destructive, handler: { _ in
+            self.deleteAccount()
+        }))
+        alert.addAction(.init(title: "Cancel", style: .cancel, handler: { _ in
+        }))
+        present(alert, animated: true)
+    }
+
     func fetchCurrentUser(completion: @escaping (Bool) -> Void) {
         loadingView.alpha = 1.0
         guard let uid = Auth.auth().currentUser?.uid else { completion(false); return }
@@ -150,6 +164,100 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(actionSheet, animated: true)
     }
+
+    private func deleteAccount() {
+        if let myHunts,
+           !myHunts.isEmpty {
+            loadingLabel.text = "Deleting your hunts..."
+            UIView.animate(withDuration: 0.5, animations: {
+                self.loadingView.alpha = 1
+            }) { _ in
+                self.deleteAllHunts(hunts: myHunts) {
+                    if let user = self.user {
+                        UIView.animate(withDuration: 0.5) {
+                            self.loadingLabel.text = "Deleting your account..."
+                        } completion: { _ in
+                            UserController.shared.delete(user: user) { error, _ in
+                                if let error {
+                                    print("Error: \(error.localizedDescription)")
+                                    return
+                                } else {
+                                    UserController.shared.delete(user: user) { _, _ in
+                                        self.deleteUser()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else if let user {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.loadingView.alpha = 1
+            }) { _ in
+                self.loadingLabel.text = "Deleting your account..."
+                UserController.shared.delete(user: user) { _, _ in
+                    self.deleteUser()
+                }
+            }
+        } else {
+            self.deleteUser()
+        }
+    }
+
+    private func deleteAllHunts(hunts: [Hunt], completion: @escaping () -> Void) {
+        guard let huntToDelete = hunts.first else {
+            completion()
+            return
+        }
+
+        deleteSingleHunt(huntToDelete) { _ in
+            self.myHunts?.removeAll(where: { $0.id == huntToDelete.id })
+            self.deleteAllHunts(hunts: self.myHunts ?? [], completion: completion)
+        }
+    }
+
+    private func deleteUser() {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        self.showFailedToDeleteAlert(title: "Confirm password to delete", message: "", showTextField: true, actionTitle: "Submit") { ac in
+            if let email = currentUser.email,
+               let password = ac.textFields?.first?.text {
+                let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+                currentUser.reauthenticate(with: credential) { result, error in
+                    if let error {
+                        self.showFailedToDeleteAlert(title: "Error", message: error.localizedDescription, actionTitle: "Try again") { _ in
+                            self.deleteUser()
+                        }
+                    } else if result != nil {
+                        currentUser.delete(completion: { error in
+                            if let error {
+                                self.showFailedToDeleteAlert(title: "Delete Account Failed", message: error.localizedDescription)
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.dismiss(animated: true)
+                                }
+                            }
+                        })
+                    }
+                }
+            }
+        }
+    }
+
+    private func showFailedToDeleteAlert(title: String, message: String, showTextField: Bool = false, actionTitle: String? = nil, actionHandler: ((UIAlertController) -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        if showTextField {
+            alert.addTextField()
+        }
+        if let actionTitle {
+            alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { _ in
+                actionHandler?(alert)
+            }))
+        } else {
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+        }
+        present(alert, animated: true)
+    }
 }
 
 extension ProfileViewController: HuntCollectionViewCellDelegate {
@@ -158,7 +266,7 @@ extension ProfileViewController: HuntCollectionViewCellDelegate {
         
         let alertController = UIAlertController(title: "Delete Hunt?", message: "Are you sure you want to delete this hunt?", preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (deleteTapped) in
-            HuntController.shared.delete(hunt: hunt) { (didDelete) in
+            self.deleteSingleHunt(huntToDelete) { (didDelete) in
                 if didDelete {
                     guard let myHunts = self.myHunts else { return }
                     
@@ -182,5 +290,9 @@ extension ProfileViewController: HuntCollectionViewCellDelegate {
         DispatchQueue.main.async {
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+
+    private func deleteSingleHunt(_ hunt: Hunt, completion: @escaping (Bool) -> Void) {
+        HuntController.shared.delete(hunt: hunt, completion: completion)
     }
 }

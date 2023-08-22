@@ -75,9 +75,14 @@ class UserController {
         }
     }
     
-    func delete(user: User) {
+    func delete(user: User, completion: @escaping (Error?, DatabaseReference) -> Void) {
         currentUserRef = usersRef.child(user.uid)
-        currentUserRef?.removeValue()
+        storageRef.child(user.username).delete { error in
+            if let error {
+                print("Error removing profile image: \(error.localizedDescription)")
+            }
+            self.currentUserRef?.removeValue(completionBlock: completion)
+        }
     }
     
     func fetchUserWithUID(_ uid: String, completion: @escaping (User?) -> Void) {
