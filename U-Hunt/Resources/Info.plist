@@ -17,9 +17,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>5</string>
 	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<string>public.app-category.adventure-games</string>
 	<key>LSApplicationQueriesScheme</key>
 	<array>
 		<string>googlechromes</string>
